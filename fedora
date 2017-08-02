@@ -1,5 +1,5 @@
 FROM fedora:latest
-RUN dnf -y install make cmake git gcc-c++ gromacs-devel expat-devel fftw-devel gsl-devel boost-devel txt2tags sqlite-devel gromacs ccache procps-ng octave gnuplot python2-numpy psmisc ghostscript texlive doxygen texlive-appendix texlive-wrapfig texlive-a4wide texlive-xstring vim-enhanced clang llvm compiler-rt python-pip python-lxml python-numpy inkscape transfig texlive-units texlive-sidecap texlive-bclogo texlive-mdframed
+RUN dnf -y install make cmake git gcc-c++ gromacs-devel expat-devel fftw-devel gsl-devel boost-devel txt2tags sqlite-devel gromacs ccache procps-ng octave gnuplot python2-numpy psmisc ghostscript texlive doxygen texlive-appendix texlive-wrapfig texlive-a4wide texlive-xstring vim-enhanced clang llvm compiler-rt python-pip python-lxml python-numpy inkscape transfig texlive-units texlive-sidecap texlive-bclogo texlive-mdframed texlive-braket
 RUN useradd -m votca
 USER votca
 ENV PATH=/usr/lib64/ccache${PATH:+:}${PATH}
