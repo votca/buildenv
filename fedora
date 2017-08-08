@@ -1,5 +1,5 @@
 FROM fedora:latest
-RUN dnf -y install make cmake git gcc-c++ gromacs-devel expat-devel fftw-devel gsl-devel boost-devel txt2tags sqlite-devel gromacs ccache procps-ng octave gnuplot python2-numpy psmisc ghostscript texlive doxygen texlive-appendix texlive-wrapfig texlive-a4wide texlive-xstring vim-enhanced clang llvm compiler-rt python-pip python-lxml python-numpy inkscape transfig texlive-units texlive-sidecap texlive-bclogo texlive-mdframed texlive-braket graphviz wget
+RUN dnf -y install make cmake git gcc-c++ gromacs-devel expat-devel fftw-devel gsl-devel boost-devel txt2tags sqlite-devel gromacs ccache procps-ng octave gnuplot python2-numpy psmisc ghostscript texlive doxygen texlive-appendix texlive-wrapfig texlive-a4wide texlive-xstring vim-enhanced clang llvm compiler-rt python-pip python-lxml python-numpy inkscape transfig texlive-units texlive-sidecap texlive-bclogo texlive-mdframed texlive-braket graphviz wget hdf5-devel
 RUN wget -O /usr/bin/doxy-coverage https://raw.githubusercontent.com/alobbs/doxy-coverage/master/doxy-coverage.py
 RUN chmod +x /usr/bin/doxy-coverage
 RUN wget -O /usr/bin/codecov https://codecov.io/bash
