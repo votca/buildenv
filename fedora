@@ -10,7 +10,7 @@ RUN wget -O /usr/bin/codecov https://codecov.io/bash
 RUN chmod +x /usr/bin/codecov
 
 # install fedora's gromacs
-RUN if [ -z ${GMX_BRANCH} ]; then \
+RUN if [ -z "${GMX_BRANCH}" ]; then \
   dnf -y install gromacs-devel gromacs; \
 fi
 
@@ -20,15 +20,15 @@ ENV PATH=/usr/lib64/ccache${PATH:+:}${PATH}
 WORKDIR /home/votca
 RUN pip install --user codecov coverxygen
 # build certain gromacs version as user
-RUN if [ -n ${GMX_BRANCH} ]; then \
-  git clone --depth 1 -b release-5-1 https://github.com/gromacs/gromacs.git && \
+RUN if [ -n "${GMX_BRANCH}" ]; then \
+  git clone --depth 1 -b "${GMX_BRANCH}" https://github.com/gromacs/gromacs.git && \
   mkdir gromacs/build && cd gromacs/build && \
   cmake -DCMAKE_INSTALL_PREFIX=/usr .. && \
   make -j3; \
 fi
 USER root
 # install certain gromacs version as root
-RUN if [ -n ${GMX_BRANCH} ]; then \
+RUN if [ -n "${GMX_BRANCH}" ]; then \
   make -C gromacs/build install; \
 fi
 USER votca
