@@ -18,6 +18,7 @@ RUN useradd -m votca
 USER votca
 ENV PATH=/usr/lib64/ccache${PATH:+:}${PATH}
 WORKDIR /home/votca
+RUN mkdir .ccache
 RUN pip install --user codecov coverxygen
 # build certain gromacs version as user
 RUN if [ -n "${GMX_BRANCH}" ]; then \
