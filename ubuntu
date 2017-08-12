@@ -1,0 +1,42 @@
+FROM ubuntu:latest
+
+ARG GMX_BRANCH
+
+RUN apt-get -q update -y
+RUN apt-get -qq install -y make cmake git g++ libexpat-dev libfftw3-dev libgsl-dev libboost-all-dev txt2tags libsqlite3-dev ccache octave gnuplot python-numpy ghostscript texlive doxygen vim clang llvm python-pip python-lxml inkscape transfig wget libhdf5-dev graphviz pkg-config texlive-latex-extra
+RUN wget -O /usr/bin/doxy-coverage https://raw.githubusercontent.com/alobbs/doxy-coverage/master/doxy-coverage.py
+RUN chmod +x /usr/bin/doxy-coverage
+RUN wget -O /usr/bin/codecov https://codecov.io/bash
+RUN chmod +x /usr/bin/codecov
+
+RUN apt-get install -y openjdk-8-jdk unzip
+RUN wget https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-2.8.zip https://sonarqube.com/static/cpp/build-wrapper-linux-x86.zip
+RUN unzip sonar-scanner-2.8.zip -d /sonarqube/
+RUN unzip build-wrapper-linux-x86.zip -d /sonarqube/
+ENV PATH=${PATH}${PATH:+:}/sonarqube/build-wrapper-linux-x86:/sonarqube/sonar-scanner-2.8/bin
+RUN sonar-scanner -h
+
+# install ubuntu's gromacs
+RUN if [ -z "${GMX_BRANCH}" ]; then \
+  apt-get install -y gromacs-dev; \
+fi
+
+RUN useradd -m votca
+USER votca
+ENV PATH=/usr/lib/ccache${PATH:+:}${PATH}
+WORKDIR /home/votca
+RUN mkdir .ccache
+RUN pip install --user codecov coverxygen
+# build certain gromacs version as user
+RUN if [ -n "${GMX_BRANCH}" ]; then \
+  git clone --depth 1 -b "${GMX_BRANCH}" https://github.com/gromacs/gromacs.git && \
+  mkdir gromacs/build && cd gromacs/build && \
+  cmake -DCMAKE_INSTALL_PREFIX=/usr .. && \
+  make -j3; \
+fi
+USER root
+# install certain gromacs version as root
+RUN if [ -n "${GMX_BRANCH}" ]; then \
+  make -C gromacs/build install; \
+fi
+USER votca
