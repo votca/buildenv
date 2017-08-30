@@ -11,12 +11,13 @@ RUN chmod +x /usr/bin/codecov
 
 # install fedora's gromacs
 RUN if [ -z "${GMX_BRANCH}" ]; then \
-  dnf -y install gromacs-devel gromacs; \
+  dnf -y install gromacs-devel gromacs gromacs-openmpi; \
 fi
 
 RUN useradd -m votca
 USER votca
-ENV PATH=/usr/lib64/ccache${PATH:+:}${PATH}
+ENV PATH=/usr/lib64/ccache:/usr/lib64/openmpi/bin${PATH:+:}${PATH}
+ENV LD_LIBRARY_PATH=/usr/lib64/openmpi/lib${LD_LIBRARY_PATH:+:}${LD_LIBRARY_PATH}
 WORKDIR /home/votca
 RUN mkdir .ccache
 RUN pip install --user codecov coverxygen
