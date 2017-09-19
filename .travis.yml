@@ -9,6 +9,7 @@ env:
   matrix:
     - DISTRO=fedora DOCKERHUB=true
     - DISTRO=fedora_gmx5.1 GMX_BRANCH=release-5-1 DOCKERHUB=true
+    - DISTRO=fedora_gmx2016 GMX_BRANCH=release-2016 DOCKERHUB=true
     - DISTRO=fedora_gmx9999 GMX_BRANCH=master DOCKERHUB=true
     - DISTRO=ubuntu DOCKERHUB=true
 
