@@ -31,7 +31,7 @@ RUN pip install --user codecov coverxygen
 RUN if [ -n "${GMX_BRANCH}" ]; then \
   git clone --depth 1 -b "${GMX_BRANCH}" https://github.com/gromacs/gromacs.git && \
   mkdir gromacs/build && cd gromacs/build && \
-  cmake -DCMAKE_INSTALL_PREFIX=/usr .. && \
+  cmake -DCMAKE_INSTALL_PREFIX=/usr -DGMX_SIMD=SSE2 .. && \
   make -j3; \
 fi
 USER root
