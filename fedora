@@ -1,6 +1,7 @@
 FROM fedora:latest
 
 ARG GMX_BRANCH
+ARG GMX_DOUBLE
 
 RUN dnf -y install make cmake git gcc-c++ expat-devel fftw-devel gsl-devel boost-devel txt2tags sqlite-devel ccache procps-ng octave gnuplot python2-numpy psmisc ghostscript texlive doxygen texlive-appendix texlive-wrapfig texlive-a4wide texlive-xstring vim-minimal clang llvm compiler-rt python-pip python-lxml python-numpy inkscape transfig texlive-units texlive-sidecap texlive-bclogo texlive-mdframed texlive-braket graphviz wget hdf5-devel lammps
 
@@ -25,7 +26,7 @@ RUN pip install --user codecov coverxygen
 RUN if [ -n "${GMX_BRANCH}" ]; then \
   git clone --depth 1 -b "${GMX_BRANCH}" https://github.com/gromacs/gromacs.git && \
   mkdir gromacs/build && cd gromacs/build && \
-  cmake -DCMAKE_INSTALL_PREFIX=/usr -DGMX_SIMD=SSE2 .. && \
+  cmake -DCMAKE_INSTALL_PREFIX=/usr -DGMX_SIMD=SSE2 -DGMX_DOUBLE=${GMX_DOUBLE} .. && \
   make -j3; \
 fi
 USER root
