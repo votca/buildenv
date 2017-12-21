@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:zesty
 
 ARG GMX_BRANCH
 
