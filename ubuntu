@@ -19,7 +19,7 @@ RUN sonar-scanner -h
 
 # install ubuntu's gromacs
 RUN if [ -z "${GMX_BRANCH}" ]; then \
-  apt-get install -y gromacs-dev gromacs-openmpi; \
+  apt-get install -y libgromacs-dev gromacs-openmpi; \
 fi
 
 RUN useradd -m votca
