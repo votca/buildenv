@@ -4,7 +4,7 @@ ARG GMX_BRANCH
 ARG GMX_DOUBLE
 
 RUN apt-get -q update -y
-RUN apt-get -qq install -y make cmake git g++ libexpat-dev libfftw3-dev libgsl-dev libboost-all-dev txt2tags libsqlite3-dev ccache octave gnuplot python-numpy ghostscript texlive doxygen vim clang llvm python-pip python-lxml inkscape transfig wget libhdf5-dev graphviz pkg-config texlive-latex-extra psmisc
+RUN apt-get -qq install -y make cmake git g++ libexpat-dev libfftw3-dev libgsl-dev libboost-all-dev txt2tags libsqlite3-dev ccache octave gnuplot python-numpy ghostscript texlive doxygen vim clang llvm python-pip python-lxml inkscape transfig wget libhdf5-dev graphviz pkg-config texlive-latex-extra psmisc texlive-pstricks
 RUN wget -O /usr/bin/doxy-coverage https://raw.githubusercontent.com/alobbs/doxy-coverage/master/doxy-coverage.py
 RUN chmod +x /usr/bin/doxy-coverage
 RUN wget -O /usr/bin/codecov https://codecov.io/bash
