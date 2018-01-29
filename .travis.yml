@@ -22,7 +22,9 @@ script:
   - cp -r $HOME/.ccache ${HOME}/docker/ccache
   - if [[ ${DISTRO} = fedora ]]; then DISTRO="latest"; fi
   - if [[ ${TRAVIS_BRANCH} != master ]]; then TAG="${TAG}_${TRAVIS_BRANCH}"; fi
-  - docker build --build-arg GMX_BRANCH="${GMX_BRANCH}"
+  - travis_retry docker pull $(sed -n '1s/FROM //p' ${HOME}/docker/Dockerfile)
+  - travis_retry docker build
+                 --build-arg GMX_BRANCH="${GMX_BRANCH}"
                  --build-arg GMX_DOUBLE="${GMX_DOUBLE:-OFF}"
                  -t ${TRAVIS_REPO_SLUG}:${DISTRO}${TAG} ${HOME}/docker/ &&
     rm -rf $HOME/.ccache &&
