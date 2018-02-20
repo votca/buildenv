@@ -3,7 +3,7 @@ FROM fedora:latest
 ARG GMX_BRANCH
 ARG GMX_DOUBLE
 
-RUN dnf -y install make cmake git gcc-c++ expat-devel fftw-devel gsl-devel boost-devel txt2tags sqlite-devel ccache procps-ng octave gnuplot python2-numpy psmisc ghostscript texlive doxygen texlive-appendix texlive-wrapfig texlive-a4wide texlive-xstring vim-minimal clang llvm compiler-rt python-pip python-lxml python-numpy inkscape transfig texlive-units texlive-sidecap texlive-bclogo texlive-mdframed texlive-braket graphviz wget hdf5-devel lammps eigen3-devel
+RUN dnf -y install make cmake git gcc-c++ expat-devel fftw-devel gsl-devel boost-devel txt2tags sqlite-devel ccache procps-ng octave gnuplot python2-numpy psmisc ghostscript texlive doxygen texlive-appendix texlive-wrapfig texlive-a4wide texlive-xstring vim-minimal clang llvm compiler-rt python-pip python-lxml python-numpy inkscape transfig texlive-units texlive-sidecap texlive-bclogo texlive-mdframed texlive-braket graphviz wget hdf5-devel lammps libint2-devel eigen3-devel
 
 RUN wget -O /usr/bin/doxy-coverage https://raw.githubusercontent.com/alobbs/doxy-coverage/master/doxy-coverage.py
 RUN chmod +x /usr/bin/doxy-coverage
