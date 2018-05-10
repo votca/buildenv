@@ -26,6 +26,7 @@ fi
 RUN useradd -m votca
 USER votca
 ENV PATH=/usr/lib/ccache${PATH:+:}${PATH}
+ENV CCACHE_MAXSIZE=250M
 WORKDIR /home/votca
 RUN mkdir .ccache
 RUN pip install --user codecov coverxygen
