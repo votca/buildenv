@@ -19,7 +19,7 @@ ENV PATH=${PATH}${PATH:+:}/sonarqube/build-wrapper-linux-x86:/sonarqube/sonar-sc
 RUN sonar-scanner -h
 
 # install ubuntu's gromacs
-RUN if [ -z "${GMX_BRANCH}" ]; then \
+RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
   apt-get install -y libgromacs-dev gromacs-openmpi; \
 fi
 

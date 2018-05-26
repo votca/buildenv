@@ -14,6 +14,7 @@ env:
     - DISTRO=fedora_gmx2018   GMX_BRANCH=release-2018 DOCKERHUB=true
     - DISTRO=fedora_gmx9999_d GMX_BRANCH=master       GMX_DOUBLE=ON DOCKERHUB=true
     - DISTRO=fedora_gmx9999   GMX_BRANCH=master       DOCKERHUB=true
+    - DISTRO=fedora_nogmx     GMX_BRANCH=none         DOCKERHUB=true
     - DISTRO=ubuntu DOCKERHUB=true
 
 script:
