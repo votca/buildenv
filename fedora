@@ -32,7 +32,7 @@ RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
 fi
 USER root
 # install certain gromacs version as root
-RUN if [ -n "${GMX_BRANCH}" ]; then \
+RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
   make -C gromacs/build install; \
 fi
 USER votca
