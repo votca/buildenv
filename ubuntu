@@ -19,7 +19,7 @@ ENV PATH=${PATH}${PATH:+:}/sonarqube/build-wrapper-linux-x86:/sonarqube/sonar-sc
 RUN sonar-scanner -h
 
 # install ubuntu's gromacs
-RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
+RUN if [ -z "${GMX_BRANCH}" ]; then \
   apt-get install -y libgromacs-dev gromacs-openmpi; \
 fi
 
@@ -31,7 +31,7 @@ WORKDIR /home/votca
 RUN mkdir .ccache
 RUN pip install --user codecov coverxygen
 # build certain gromacs version as user
-RUN if [ -n "${GMX_BRANCH}" ]; then \
+RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
   git clone --depth 1 -b "${GMX_BRANCH}" https://github.com/gromacs/gromacs.git && \
   mkdir gromacs/build && cd gromacs/build && \
   cmake -DCMAKE_INSTALL_PREFIX=/usr -DGMX_SIMD=SSE2 -DGMX_DOUBLE=${GMX_DOUBLE} .. && \
