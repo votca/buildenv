@@ -21,8 +21,8 @@ RUN if [ -z "${GMX_BRANCH}" ]; then \
   apt-get install -y libgromacs-dev gromacs-openmpi; \
 fi
 
-RUN useradd -m -G wheel votca
-RUN echo '%wheel ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+RUN useradd -m -G sudo votca
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER votca
 ENV PATH=/usr/lib/ccache${PATH:+:}${PATH}
 ENV CCACHE_MAXSIZE=250M
