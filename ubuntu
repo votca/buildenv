@@ -9,7 +9,7 @@ RUN apt-get -qq install -y make cmake git g++ libexpat-dev libfftw3-dev libgsl-d
 
 # create latex.fmt before manual build
 # parallel build might trigger a raise condition for non-exisiting latex.fmt when multiple latex get executed
-RUN mktexfmt latex.fmt
+RUN fmtutil-sys --all
 
 RUN wget -O /usr/bin/doxy-coverage https://raw.githubusercontent.com/alobbs/doxy-coverage/master/doxy-coverage.py
 RUN chmod +x /usr/bin/doxy-coverage
