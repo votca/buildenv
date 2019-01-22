@@ -8,6 +8,10 @@ RUN dnf -y install make cmake git gcc-c++ expat-devel fftw-devel gsl-devel boost
 # set https://github.com/votca/buildenv/issues/22
 RUN alternatives --set gnuplot /usr/bin/gnuplot-minimal
 
+# create latex.fmt before manual build
+# parallel build might trigger a raise condition for non-exisiting latex.fmt when multiple latex get executed
+RUN mktexfmt latex.fmt
+
 RUN wget -O /usr/bin/doxy-coverage https://raw.githubusercontent.com/alobbs/doxy-coverage/master/doxy-coverage.py
 RUN chmod +x /usr/bin/doxy-coverage
 RUN wget -O /usr/bin/codecov https://codecov.io/bash
