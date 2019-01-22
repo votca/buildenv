@@ -3,7 +3,7 @@ FROM fedora:latest
 ARG GMX_BRANCH
 ARG GMX_DOUBLE
 
-RUN dnf -y install make cmake git gcc-c++ expat-devel fftw-devel gsl-devel boost-devel txt2tags sqlite-devel ccache procps-ng octave gnuplot-minimal python2-numpy psmisc ghostscript texlive doxygen texlive-appendix texlive-wrapfig texlive-a4wide texlive-xstring vim-minimal clang llvm compiler-rt python-pip python2-lxml python3-lxml python3-numpy inkscape transfig texlive-units texlive-sidecap texlive-bclogo texlive-mdframed texlive-braket graphviz wget hdf5-devel lammps libint2-devel eigen3-devel libxc-devel ceres-solver-devel ImageMagick ghostscript-tools-dvipdf python3-espresso-openmpi
+RUN dnf -y install make cmake git gcc-c++ expat-devel fftw-devel gsl-devel boost-devel txt2tags sqlite-devel ccache procps-ng octave gnuplot-minimal python2-numpy psmisc ghostscript texlive doxygen texlive-appendix texlive-wrapfig texlive-a4wide texlive-xstring vim-minimal clang llvm compiler-rt python-pip python2-lxml python3-lxml python3-numpy inkscape transfig texlive-units texlive-sidecap texlive-bclogo texlive-mdframed texlive-braket graphviz wget hdf5-devel lammps libint2-devel eigen3-devel libxc-devel ceres-solver-devel ImageMagick ghostscript-tools-dvipdf python3-espresso-openmpi sudo
 
 # set https://github.com/votca/buildenv/issues/22
 RUN alternatives --set gnuplot /usr/bin/gnuplot-minimal
@@ -18,7 +18,8 @@ RUN if [ -z "${GMX_BRANCH}" ]; then \
   dnf -y install gromacs-devel gromacs gromacs-openmpi; \
 fi
 
-RUN useradd -m votca
+RUN useradd -m -G wheel votca
+RUN echo '%wheel ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER votca
 ENV PATH=/usr/lib64/ccache:/usr/lib64/openmpi/bin${PATH:+:}${PATH}
 ENV LD_LIBRARY_PATH=/usr/lib64/openmpi/lib${LD_LIBRARY_PATH:+:}${LD_LIBRARY_PATH}
