@@ -17,6 +17,7 @@ env:
     - DISTRO=fedora_gmx9999_d GMX_BRANCH=master       GMX_DOUBLE=ON DOCKERHUB=true
     - DISTRO=fedora_gmx9999   GMX_BRANCH=master       DOCKERHUB=true
     - DISTRO=fedora_nogmx     GMX_BRANCH=none         DOCKERHUB=true
+    - DISTRO=fedora_rawhide DOCKERHUB=true
     - DISTRO=ubuntu DOCKERHUB=true
 
 script:
@@ -24,6 +25,7 @@ script:
   - cp -v ${DISTRO%%_*} ${HOME}/docker/Dockerfile
   - cp -r $HOME/.ccache ${HOME}/docker/ccache
   - if [[ ${DISTRO} = fedora ]]; then DISTRO="latest"; fi
+  - if [[ ${DISTRO} = fedora_rawhide ]]; then sed -i '1s/latest/rawhide/' ${HOME}/docker/Dockerfile; fi
   - if [[ ${TRAVIS_BRANCH} != master ]]; then TAG="${TAG}_${TRAVIS_BRANCH}"; fi
   - travis_retry timeout 540 docker pull $(sed -n '1s/FROM //p' ${HOME}/docker/Dockerfile)
   - travis_retry docker build
