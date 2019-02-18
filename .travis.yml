@@ -5,6 +5,9 @@ sudo: required
 services:
  - docker
 
+git:
+  quiet: true
+
 env:
   matrix:
     - DISTRO=fedora DOCKERHUB=true
@@ -19,13 +22,16 @@ env:
     - DISTRO=fedora_nogmx     GMX_BRANCH=none         DOCKERHUB=true
     - DISTRO=ubuntu DOCKERHUB=true
 
+before_script:
+  - pip install --user docker-squash
+
 script:
   - mkdir ${HOME}/docker
   - cp -v ${DISTRO%%_*} ${HOME}/docker/Dockerfile
   - cp -r $HOME/.ccache ${HOME}/docker/ccache
   - if [[ ${DISTRO} = fedora ]]; then DISTRO="latest"; fi
   - if [[ ${TRAVIS_BRANCH} != master ]]; then TAG="${TAG}_${TRAVIS_BRANCH}"; fi
-  - travis_retry timeout 540 docker pull $(sed -n '1s/FROM //p' ${HOME}/docker/Dockerfile)
+  - travis_retry timeout 540 docker pull $(sed -n '1s/FROM //p' ${HOME}/docker/Dockerfile) | cat
   - travis_retry docker build
                  --build-arg GMX_BRANCH="${GMX_BRANCH}"
                  --build-arg GMX_DOUBLE="${GMX_DOUBLE:-OFF}"
@@ -35,6 +41,8 @@ script:
     docker cp ${CON}:/home/votca/.ccache ${HOME}/
 
 after_success:
+  - BASE_IMAGE="$(sed -n '1s/FROM //p' ${HOME}/docker/Dockerfile)"
+  - ~/.local/bin/docker-squash -f "${BASE_IMAGE}" "${TRAVIS_REPO_SLUG}:${DISTRO}${TAG}"
   - shopt -s extglob && [[ ${TRAVIS_BRANCH} = @(master|refactor) ]] && DEPLOY=yes
   - if [[ ${DOCKERHUB} = true && ${DOCKER_USERNAME} && ${DOCKER_PASSWORD} && ${TRAVIS_PULL_REQUEST} == false && ${DEPLOY} ]]; then
       docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
