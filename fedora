@@ -14,7 +14,7 @@ RUN fmtutil-sys --all
 
 RUN wget -O /usr/bin/doxy-coverage https://raw.githubusercontent.com/alobbs/doxy-coverage/master/doxy-coverage.py
 RUN chmod +x /usr/bin/doxy-coverage
-RUN wget -O /usr/bin/codecov https://codecov.io/bash
+RUN wget -O /usr/bin/codecov https://raw.githubusercontent.com/junghans/codecov-bash/master/codecov 
 RUN chmod +x /usr/bin/codecov
 
 # install fedora's gromacs
