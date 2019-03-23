@@ -11,9 +11,7 @@ RUN apt-get -qq install -y make cmake valgrind git g++ libexpat-dev libfftw3-dev
 # parallel build might trigger a raise condition for non-exisiting latex.fmt when multiple latex get executed
 RUN fmtutil-sys --all
 
-RUN wget -O /usr/bin/doxy-coverage https://raw.githubusercontent.com/alobbs/doxy-coverage/master/doxy-coverage.py
-RUN chmod +x /usr/bin/doxy-coverage
-RUN wget -O /usr/bin/codecov https://raw.githubusercontent.com/junghans/codecov-bash/master/codecov 
+RUN wget -O /usr/bin/codecov https://raw.githubusercontent.com/votca/codecov-bash/master/codecov 
 RUN chmod +x /usr/bin/codecov
 
 # install ubuntu's gromacs
@@ -28,7 +26,7 @@ ENV PATH=/usr/lib/ccache${PATH:+:}${PATH}
 ENV CCACHE_MAXSIZE=250M
 WORKDIR /home/votca
 RUN mkdir .ccache
-RUN pip install --user codecov coverxygen
+RUN pip install --user coverxygen
 # build certain gromacs version as user
 RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
   git clone --depth 1 -b "${GMX_BRANCH}" https://github.com/gromacs/gromacs.git && \
