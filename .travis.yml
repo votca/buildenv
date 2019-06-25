@@ -23,6 +23,10 @@ env:
     - DISTRO=fedora_rawhide DOCKERHUB=true
     - DISTRO=ubuntu DOCKERHUB=true
 
+matrix:
+  allow_failures:
+    - env: DISTRO=fedora_rawhide DOCKERHUB=true
+
 before_script:
   - pip install --user docker-squash
 
