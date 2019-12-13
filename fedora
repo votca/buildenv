@@ -25,7 +25,7 @@ RUN useradd -m -G wheel votca
 RUN echo '%wheel ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER votca
 ENV PATH=/usr/lib64/ccache:/usr/lib64/openmpi/bin${PATH:+:}${PATH}
-ENV LD_LIBRARY_PATH=/usr/lib64/openmpi/lib${LD_LIBRARY_PATH:+:}${LD_LIBRARY_PATH}
+ENV LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:/usr/lib64/${PYTHON:-python3.7}/site-packages/openmpi/espressomd${LD_LIBRARY_PATH:+:}${LD_LIBRARY_PATH}
 ENV PYTHONPATH=/usr/lib64/${PYTHON:-python3.7}/site-packages/openmpi${PYTHONPATH:+:}${PYTHONPATH}
 ENV CCACHE_MAXSIZE=250M
 WORKDIR /home/votca
