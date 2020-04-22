@@ -14,7 +14,7 @@ RUN apt-get -qq install -y texlive-latex-extra psmisc texlive-pstricks libeigen3
 # parallel build might trigger a raise condition for non-exisiting latex.fmt when multiple latex get executed
 RUN fmtutil-sys --all
 
-RUN wget -O /usr/bin/codecov https://raw.githubusercontent.com/votca/codecov-bash/master/codecov 
+RUN wget -O /usr/bin/codecov https://raw.githubusercontent.com/junghans/codecov-bash/master/codecov
 RUN chmod +x /usr/bin/codecov
 
 # install ubuntu's gromacs
