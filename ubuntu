@@ -29,7 +29,7 @@ ENV PATH=/usr/lib/ccache${PATH:+:}${PATH}
 ENV CCACHE_MAXSIZE=250M
 WORKDIR /home/votca
 RUN mkdir .ccache
-RUN pip install --user coverxygen
+RUN pip3 install --user coverxygen
 RUN fmtutil-user --all
 # build certain gromacs version as user
 RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
