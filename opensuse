@@ -18,6 +18,7 @@ RUN if [ -z "${GMX_BRANCH}" ]; then \
   zypper install -y gromacs-devel gromacs gromacs-openmpi2; \
 fi
 
+RUN groupadd -r wheel
 RUN useradd -m -G wheel votca
 RUN echo '%wheel ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER votca
