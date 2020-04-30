@@ -25,6 +25,7 @@ env:
     - DISTRO=fedora_rawhide DOCKERHUB=true PYTHON=python3.8
     - DISTRO=ubuntu DOCKERHUB=true
     - DISTRO=ubuntu_rolling DOCKERHUB=true
+    - DISTRO=opensuse DOCKERHUB=true
 
 matrix:
   allow_failures:

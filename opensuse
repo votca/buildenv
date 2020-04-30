@@ -1,0 +1,44 @@
+FROM opensuse/tumbleweed:latest
+
+ARG GMX_BRANCH
+ARG GMX_DOUBLE
+ARG PYTHON
+
+RUN zypper install -y make cmake valgrind git gcc-c++ libexpat-devel fftw-devel boost-devel txt2tags ccache procps gnuplot psmisc ghostscript texlive doxygen texlive-appendix texlive-wrapfig texlive-a4wide texlive-xstring vim clang llvm python3-pip python3-lxml python3-numpy transfig texlive-units texlive-sidecap texlive-bclogo texlive-mdframed texlive-type1cm texlive-braket texlive-dvips-bin graphviz wget hdf5-devel lammps eigen3-devel libxc-devel ImageMagick sudo curl ninja clang-devel llvm-devel
+
+# create latex.fmt before manual build
+# parallel build might trigger a raise condition for non-exisiting latex.fmt when multiple latex get executed
+RUN fmtutil-sys --all
+
+RUN wget -O /usr/bin/codecov https://raw.githubusercontent.com/junghans/codecov-bash/master/codecov
+RUN chmod +x /usr/bin/codecov
+
+# install opensuse's gromacs
+RUN if [ -z "${GMX_BRANCH}" ]; then \
+  zypper install -y gromacs-devel gromacs gromacs-openmpi2; \
+fi
+
+RUN useradd -m -G wheel votca
+RUN echo '%wheel ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+USER votca
+ENV CCACHE_MAXSIZE=250M
+WORKDIR /home/votca
+RUN mkdir .ccache
+RUN pip install --user coverxygen
+RUN fmtutil-user --all
+# build certain gromacs version as user
+RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
+  git clone --depth 1 -b "${GMX_BRANCH}" https://github.com/gromacs/gromacs.git && \
+  mkdir gromacs/build && cd gromacs/build && \
+  if [ "${GMX_BRANCH}" = master ] || [ "${GMX_BRANCH}" = release-2020 ]; then \
+    gmx_cmake_opts="-DGMX_INSTALL_LEGACY_API=ON"; \
+  fi && \
+  cmake -DCMAKE_INSTALL_PREFIX=/usr -DGMX_SIMD=SSE2 -DGMX_DOUBLE=${GMX_DOUBLE} ${gmx_cmake_opts} .. && \
+  make -j3; \
+fi
+USER root
+# install certain gromacs version as root
+RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
+  make -C gromacs/build install; \
+fi
+USER votca
