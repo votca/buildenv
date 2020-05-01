@@ -9,11 +9,11 @@ RUN zypper install -y make cmake valgrind git gcc-c++ libexpat-devel fftw-devel 
 # create latex.fmt before manual build
 # parallel build might trigger a raise condition for non-exisiting latex.fmt when multiple latex get executed
 # https://bugzilla.opensuse.org/show_bug.cgi?id=1074128
-RUN mkdir /run/texlive
-RUN touch /var/run/texlive/run-hyphen
-RUN touch /var/run/texlive/run-fmtutil.language
-RUN touch /var/run/texlive/run-fmtutil.refresh
-RUN /usr/share/texmf/texconfig/update
+#RUN mkdir /run/texlive
+#RUN touch /var/run/texlive/run-hyphen
+#RUN touch /var/run/texlive/run-fmtutil.language
+#RUN touch /var/run/texlive/run-fmtutil.refresh
+#RUN /usr/share/texmf/texconfig/update
 RUN fmtutil-sys --all
 
 RUN wget -O /usr/bin/codecov https://raw.githubusercontent.com/junghans/codecov-bash/master/codecov
