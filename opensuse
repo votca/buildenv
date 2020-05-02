@@ -4,11 +4,17 @@ ARG GMX_BRANCH
 ARG GMX_DOUBLE
 ARG PYTHON
 
-RUN zypper install -y make cmake valgrind git gcc-c++ libexpat-devel fftw-devel boost-devel txt2tags ccache procps gnuplot psmisc ghostscript texlive doxygen texlive-appendix texlive-wrapfig texlive-a4wide texlive-xstring vim clang llvm python3-pip python3-lxml python3-numpy transfig texlive-units texlive-sidecap texlive-bclogo texlive-mdframed texlive-type1cm texlive-braket texlive-dvips-bin graphviz wget hdf5-devel lammps eigen3-devel libxc-devel ImageMagick sudo curl ninja clang-devel llvm-devel libboost_filesystem-devel libboost_program_options-devel libboost_serialization-devel libboost_system-devel libboost_test-devel libboost_timer-devel texlive-bibtex-bin texlive-makeindex-bin zlib-devel
+RUN zypper install -y make cmake valgrind git gcc-c++ libexpat-devel fftw-devel boost-devel txt2tags ccache procps gnuplot psmisc ghostscript texlive doxygen texlive-appendix texlive-wrapfig texlive-a4wide texlive-xstring vim clang llvm python3-pip python3-lxml python3-numpy transfig texlive-units texlive-sidecap texlive-bclogo texlive-mdframed texlive-type1cm texlive-braket texlive-dvips-bin graphviz wget hdf5-devel lammps eigen3-devel libxc-devel ImageMagick sudo curl ninja clang-devel llvm-devel libboost_filesystem-devel libboost_program_options-devel libboost_serialization-devel libboost_system-devel libboost_test-devel libboost_timer-devel texlive-bibtex-bin texlive-makeindex-bin zlib-devel texlive-collection-latex
 
 # create latex.fmt before manual build
 # parallel build might trigger a raise condition for non-exisiting latex.fmt when multiple latex get executed
-RUN fmtutil-sys --all
+# https://bugzilla.opensuse.org/show_bug.cgi?id=1074128
+#RUN mkdir /run/texlive
+#RUN touch /var/run/texlive/run-hyphen
+#RUN touch /var/run/texlive/run-fmtutil.language
+#RUN touch /var/run/texlive/run-fmtutil.refresh
+#RUN /usr/share/texmf/texconfig/update
+#RUN fmtutil-sys --all
 
 RUN wget -O /usr/bin/codecov https://raw.githubusercontent.com/junghans/codecov-bash/master/codecov
 RUN chmod +x /usr/bin/codecov
@@ -26,6 +32,7 @@ ENV CCACHE_MAXSIZE=250M
 WORKDIR /home/votca
 RUN mkdir .ccache
 RUN pip install --user coverxygen
+# RUN fmtutil-user --all
 # build certain gromacs version as user
 RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
   git clone --depth 1 -b "${GMX_BRANCH}" https://github.com/gromacs/gromacs.git && \
