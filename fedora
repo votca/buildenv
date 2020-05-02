@@ -11,8 +11,7 @@ RUN alternatives --set gnuplot /usr/bin/gnuplot-minimal
 
 # create latex.fmt before manual build
 # parallel build might trigger a raise condition for non-exisiting latex.fmt when multiple latex get executed
-RUN texconfig rehash
-RUN texconfig rehash
+RUN mktexlsr
 
 RUN wget -O /usr/bin/codecov https://raw.githubusercontent.com/junghans/codecov-bash/master/codecov
 RUN chmod +x /usr/bin/codecov
