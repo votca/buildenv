@@ -9,10 +9,6 @@ RUN dnf -y install make cmake valgrind git gcc-c++ expat-devel fftw-devel boost-
 # set https://github.com/votca/buildenv/issues/22
 RUN alternatives --set gnuplot /usr/bin/gnuplot-minimal
 
-# create latex.fmt before manual build
-# parallel build might trigger a raise condition for non-exisiting latex.fmt when multiple latex get executed
-RUN mktexlsr
-
 RUN wget -O /usr/bin/codecov https://raw.githubusercontent.com/junghans/codecov-bash/master/codecov
 RUN chmod +x /usr/bin/codecov
 
@@ -30,6 +26,11 @@ ENV PYTHONPATH=/usr/lib64/${PYTHON:-python3.7}/site-packages/openmpi${PYTHONPATH
 ENV CCACHE_MAXSIZE=250M
 WORKDIR /home/votca
 RUN mkdir .ccache
+
+# create latex.fmt before manual build
+# parallel build might trigger a raise condition for non-exisiting latex.fmt when multiple latex get executed
+RUN sudo texconfig rehash
+
 RUN pip install --user coverxygen
 # build certain gromacs version as user
 RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
