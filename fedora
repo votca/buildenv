@@ -22,7 +22,7 @@ RUN echo '%wheel ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER votca
 ENV PATH=/usr/lib64/ccache:/usr/lib64/openmpi/bin${PATH:+:}${PATH}
 ENV LD_LIBRARY_PATH=/usr/lib64/openmpi/lib${LD_LIBRARY_PATH:+:}${LD_LIBRARY_PATH}
-RUN XPYTHON=$(basename $(readlink -f python)); if [[ ! ${PYTHON} && ${XPYTHON} != "python3.8" ]]; then echo "PYTHON default needs update (is currently python3.8, but found ${XPYTHON})"; exit 1; fi
+RUN XPYTHON=$(basename $(readlink -f /usr/bin/python)); if [[ ! ${PYTHON} && ${XPYTHON} != "python3.8" ]]; then echo "PYTHON default needs update (is currently python3.8, but found ${XPYTHON})"; exit 1; fi
 ENV PYTHONPATH=/usr/lib64/${PYTHON:-python3.8}/site-packages/openmpi${PYTHONPATH:+:}${PYTHONPATH}
 ENV CCACHE_MAXSIZE=250M
 WORKDIR /home/votca
