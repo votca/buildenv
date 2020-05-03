@@ -9,10 +9,6 @@ RUN dnf -y install make cmake valgrind git gcc-c++ expat-devel fftw-devel boost-
 # set https://github.com/votca/buildenv/issues/22
 RUN alternatives --set gnuplot /usr/bin/gnuplot-minimal
 
-# create latex.fmt before manual build
-# parallel build might trigger a raise condition for non-exisiting latex.fmt when multiple latex get executed
-RUN texconfig rehash
-
 RUN wget -O /usr/bin/codecov https://raw.githubusercontent.com/junghans/codecov-bash/master/codecov
 RUN chmod +x /usr/bin/codecov
 
@@ -26,10 +22,18 @@ RUN echo '%wheel ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER votca
 ENV PATH=/usr/lib64/ccache:/usr/lib64/openmpi/bin${PATH:+:}${PATH}
 ENV LD_LIBRARY_PATH=/usr/lib64/openmpi/lib${LD_LIBRARY_PATH:+:}${LD_LIBRARY_PATH}
+RUN XPYTHON=$(basename $(readlink -f /usr/bin/python3)); if [[ ! ${PYTHON} && ${XPYTHON} != "python3.7" ]]; then echo "PYTHON default needs update (is currently python3.7, but found ${XPYTHON})"; exit 1; fi
 ENV PYTHONPATH=/usr/lib64/${PYTHON:-python3.7}/site-packages/openmpi${PYTHONPATH:+:}${PYTHONPATH}
 ENV CCACHE_MAXSIZE=250M
 WORKDIR /home/votca
 RUN mkdir .ccache
+
+# create latex.fmt before manual build
+# parallel build might trigger a raise condition for non-exisiting latex.fmt when multiple latex get executed
+RUN mkdir latex && cd latex && \
+printf '\\documentclass{article}\n\\begin{document}\ntest\n\\end{document}' > test.tex && \
+latex test.tex && cd .. && rm -rf latex
+
 RUN pip install --user coverxygen
 # build certain gromacs version as user
 RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
@@ -40,10 +44,6 @@ RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
   fi && \
   cmake -DCMAKE_INSTALL_PREFIX=/usr -DGMX_SIMD=SSE2 -DGMX_DOUBLE=${GMX_DOUBLE} ${gmx_cmake_opts} .. && \
   make -j3; \
+  sudo make install; \
+  cd ../..; \
 fi
-USER root
-# install certain gromacs version as root
-RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
-  make -C gromacs/build install; \
-fi
-USER votca

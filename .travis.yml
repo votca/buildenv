@@ -1,6 +1,7 @@
 language: cpp 
 
-sudo: required
+# we need a newer docker version to make texlive works in the rawhide container
+dist: bionic
 
 services:
  - docker
@@ -42,7 +43,8 @@ script:
   - if [[ ${DISTRO} = fedora_rawhide ]]; then sed -i '1s/latest/rawhide/' ${HOME}/docker/Dockerfile; fi
   - if [[ ${DISTRO} = ubuntu_rolling ]]; then sed -i '1s/latest/rolling/' ${HOME}/docker/Dockerfile; fi
   - if [[ ${TRAVIS_BRANCH} != master ]]; then TAG="${TAG}_${TRAVIS_BRANCH}"; fi
-  - travis_retry timeout 540 docker pull $(sed -n '1s/FROM //p' ${HOME}/docker/Dockerfile) | cat
+  - BASE_IMAGE="$(sed -n '1s/FROM //p' ${HOME}/docker/Dockerfile)"
+  - travis_retry timeout 540 docker pull ${BASE_IMAGE} | cat
   - travis_retry docker build
                  --build-arg GMX_BRANCH="${GMX_BRANCH}"
                  --build-arg GMX_DOUBLE="${GMX_DOUBLE:-OFF}"
@@ -53,7 +55,6 @@ script:
     docker cp ${CON}:/home/votca/.ccache ${HOME}/
 
 after_success:
-  - BASE_IMAGE="$(sed -n '1s/FROM //p' ${HOME}/docker/Dockerfile)"
   - ~/.local/bin/docker-squash -f "${BASE_IMAGE}" "${TRAVIS_REPO_SLUG}:${DISTRO}${TAG}"
   - shopt -s extglob && [[ ${TRAVIS_BRANCH} = @(master|refactor) ]] && DEPLOY=yes
   - if [[ ${DOCKERHUB} = true && ${DOCKER_USERNAME} && ${DOCKER_PASSWORD} && ${TRAVIS_PULL_REQUEST} == false && ${DEPLOY} ]]; then
