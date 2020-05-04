@@ -26,11 +26,13 @@ env:
     - DISTRO=fedora_rawhide DOCKERHUB=true PYTHON=python3.8
     - DISTRO=ubuntu DOCKERHUB=true
     - DISTRO=ubuntu_rolling DOCKERHUB=true
+    - DISTRO=ubuntu_devel DOCKERHUB=true
     - DISTRO=opensuse DOCKERHUB=true
 
 matrix:
   allow_failures:
     - env: DISTRO=fedora_rawhide DOCKERHUB=true PYTHON=python3.8
+    - env: DISTRO=ubuntu_devel DOCKERHUB=true
 
 before_script:
   - pip install --user docker-squash
@@ -42,6 +44,7 @@ script:
   - if [[ ${DISTRO} = fedora ]]; then DISTRO="latest"; fi
   - if [[ ${DISTRO} = fedora_rawhide ]]; then sed -i '1s/latest/rawhide/' ${HOME}/docker/Dockerfile; fi
   - if [[ ${DISTRO} = ubuntu_rolling ]]; then sed -i '1s/latest/rolling/' ${HOME}/docker/Dockerfile; fi
+  - if [[ ${DISTRO} = ubuntu_devel ]]; then sed -i '1s/latest/rolling/' ${HOME}/docker/Dockerfile; fi
   - if [[ ${TRAVIS_BRANCH} != master ]]; then TAG="${TAG}_${TRAVIS_BRANCH}"; fi
   - BASE_IMAGE="$(sed -n '1s/FROM //p' ${HOME}/docker/Dockerfile)"
   - travis_retry timeout 540 docker pull ${BASE_IMAGE} | cat
