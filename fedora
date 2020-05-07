@@ -42,8 +42,11 @@ RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
   if [ "${GMX_BRANCH}" = master ] || [ "${GMX_BRANCH}" = release-2020 ]; then \
     gmx_cmake_opts="-DGMX_INSTALL_LEGACY_API=ON"; \
   fi && \
+  if [ "${GMX_BRANCH}" = release-2016 ] || [ "${GMX_BRANCH}" = release-2018 ]; then \
+    gmx_cmake_opts="-DCMAKE_DISABLE_FIND_PACKAGE_Hwloc=ON"; \
+  fi && \
   cmake -DCMAKE_INSTALL_PREFIX=/usr -DGMX_SIMD=SSE2 -DGMX_DOUBLE=${GMX_DOUBLE} ${gmx_cmake_opts} .. && \
-  make -j3; \
-  sudo make install; \
+  make -j3 && \
+  sudo make install && \
   cd ../..; \
 fi
