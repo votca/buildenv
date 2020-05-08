@@ -39,11 +39,8 @@ RUN pip install --user coverxygen
 RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
   git clone --depth 1 -b "${GMX_BRANCH}" https://github.com/gromacs/gromacs.git && \
   mkdir gromacs/build && cd gromacs/build && \
-  if [ "${GMX_BRANCH}" = master ] || [ "${GMX_BRANCH}" = release-2020 ]; then \
+  if [ "${GMX_BRANCH}" != release-2019 ]; then \
     gmx_cmake_opts="-DGMX_INSTALL_LEGACY_API=ON"; \
-  fi && \
-  if [ "${GMX_BRANCH}" = release-2016 ] || [ "${GMX_BRANCH}" = release-2018 ]; then \
-    gmx_cmake_opts="-DCMAKE_DISABLE_FIND_PACKAGE_Hwloc=ON"; \
   fi && \
   cmake -DCMAKE_INSTALL_PREFIX=/usr -DGMX_SIMD=SSE2 -DGMX_DOUBLE=${GMX_DOUBLE} ${gmx_cmake_opts} .. && \
   make -j3 && \
