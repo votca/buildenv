@@ -26,6 +26,7 @@ RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER votca
 ENV PATH=/usr/lib/ccache${PATH:+:}${PATH}
 ENV CCACHE_MAXSIZE=250M
+ENV DISPLAY=host.docker.internal:0
 WORKDIR /home/votca
 RUN mkdir .ccache
 

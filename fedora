@@ -25,6 +25,7 @@ ENV LD_LIBRARY_PATH=/usr/lib64/openmpi/lib${LD_LIBRARY_PATH:+:}${LD_LIBRARY_PATH
 RUN XPYTHON=$(basename $(readlink -f /usr/bin/python3)); if [[ ! ${PYTHON} && ${XPYTHON} != "python3.7" ]]; then echo "PYTHON default needs update (is currently python3.7, but found ${XPYTHON})"; exit 1; fi
 ENV PYTHONPATH=/usr/lib64/${PYTHON:-python3.7}/site-packages/openmpi${PYTHONPATH:+:}${PYTHONPATH}
 ENV CCACHE_MAXSIZE=250M
+ENV DISPLAY=host.docker.internal:0
 WORKDIR /home/votca
 RUN mkdir .ccache
 
