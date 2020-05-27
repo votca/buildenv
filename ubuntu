@@ -21,7 +21,7 @@ RUN if [ -z "${GMX_BRANCH}" ]; then \
   apt-get install -y libgromacs-dev gromacs-openmpi; \
 fi
 
-RUN useradd -m -G sudo votca
+RUN useradd -m -G sudo -u 1001 votca
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER votca
 ENV PATH=/usr/lib/ccache${PATH:+:}${PATH}
