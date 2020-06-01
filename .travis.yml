@@ -54,7 +54,7 @@ script:
     docker cp ${CON}:/home/votca/.ccache ${HOME}/
 
 after_success:
-  - ~/.local/bin/docker-squash -f "${BASE_IMAGE}" "${TRAVIS_REPO_SLUG}:${DISTRO}${TAG}"
+  - travis_wait ~/.local/bin/docker-squash -f "${BASE_IMAGE}" "${TRAVIS_REPO_SLUG}:${DISTRO}${TAG}"
   - shopt -s extglob && [[ ${TRAVIS_BRANCH} = @(master|refactor) ]] && DEPLOY=yes
   - if [[ ${DOCKERHUB} = true && ${DOCKER_USERNAME} && ${DOCKER_PASSWORD} && ${TRAVIS_PULL_REQUEST} == false && ${DEPLOY} ]]; then
       docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
