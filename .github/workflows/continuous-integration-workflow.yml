@@ -1,0 +1,44 @@
+name: CI
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  schedule:
+    - cron:  '0 1 * * FRI'
+
+jobs:
+  CI:
+    continue-on-error: ${{ matrix.config.tag == 'ubuntu_devel' || matrix.config.tag == 'fedora_rawhide' }}
+    strategy:
+      matrix:
+        config:
+          - {tag: 'latest', dockerfile: 'fedora'}
+          - {tag: 'fedora_rawhide', dockerfile: 'fedora', build_args: 'PYTHON=python3.8,TAG=rawhide'}
+          - {tag: 'ubuntu', dockerfile: 'ubuntu'}
+          - {tag: 'ubuntu_rolling', dockerfile: 'ubuntu', build_args: 'TAG=rolling'}
+          - {tag: 'ubuntu_devel', dockerfile: 'ubuntu', build_args: 'TAG=devel'}
+          - {tag: 'ubuntu_18.04', dockerfile: 'ubuntu', build_args: 'TAG=18.04'}
+          - {tag: 'opensuse', dockerfile: 'opensuse'}
+          - {tag: 'fedora_gmx2019_d', dockerfile: 'fedora', build_args: 'GMX_BRANCH=release-2019,GMX_DOUBLE=ON'}
+          - {tag: 'fedora_gmx2019', dockerfile: 'fedora', build_args: 'GMX_BRANCH=release-2019'}
+          - {tag: 'fedora_gmx2020_d', dockerfile: 'fedora', build_args: 'GMX_BRANCH=release-2020,GMX_DOUBLE=ON'}
+          - {tag: 'fedora_gmx2020', dockerfile: 'fedora', build_args: 'GMX_BRANCH=release-2020'}
+          - {tag: 'fedora_gmx9999_d', dockerfile: 'fedora', build_args: 'GMX_BRANCH=master,GMX_DOUBLE=ON'}
+          - {tag: 'fedora_gmx9999', dockerfile: 'fedora', build_args: 'GMX_BRANCH=master'}
+          - {tag: 'fedora_nogmx', dockerfile: 'fedora', build_args: 'GMX_BRANCH=none'}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Build Docker images
+        uses: docker/build-push-action@v1.1.0
+        with:
+          repository: votca/build
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          tags: ${{ matrix.config.tag }}
+          dockerfile: ${{ matrix.config.dockerfile }}
+          build_args: ${{ matrix.config.build_args }}
+          push: ${{ github.event_name == 'push' ||  github.event_name == 'schedule' }}

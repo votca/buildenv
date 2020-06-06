@@ -1,8 +1,8 @@
-FROM ubuntu:latest
+ARG TAG=latest
+FROM ubuntu:${TAG}
 
 ARG GMX_BRANCH
 ARG GMX_DOUBLE
-ARG PYTHON
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get -q update -y
