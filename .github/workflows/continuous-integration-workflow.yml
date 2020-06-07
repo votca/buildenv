@@ -35,7 +35,7 @@ jobs:
       - name: Build Docker images
         uses: docker/build-push-action@v1.1.0
         with:
-          repository: votca/build
+          repository: votca/buildenv
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           tags: ${{ matrix.config.tag }}
