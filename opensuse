@@ -3,7 +3,14 @@ FROM opensuse/tumbleweed:latest
 ARG GMX_BRANCH
 ARG GMX_DOUBLE
 
-RUN zypper install -y make cmake valgrind git gcc-c++ libexpat-devel fftw-devel boost-devel txt2tags ccache procps gnuplot psmisc ghostscript texlive doxygen texlive-appendix texlive-wrapfig texlive-a4wide texlive-xstring vim clang llvm python3-pip python3-lxml python3-numpy python3-Sphinx python3-nbsphinx python3-recommonmark python3-sphinx_rtd_theme transfig texlive-units texlive-sidecap texlive-bclogo texlive-mdframed texlive-type1cm texlive-braket texlive-dvips-bin graphviz wget hdf5-devel lammps eigen3-devel libxc-devel ImageMagick sudo curl ninja clang-devel llvm-devel libboost_filesystem-devel libboost_program_options-devel libboost_serialization-devel libboost_system-devel libboost_test-devel libboost_timer-devel texlive-bibtex-bin texlive-makeindex-bin zlib-devel texlive-collection-latex texlive-helvetic texlive-courier python3-espressomd python3-cma
+RUN zypper dup -y && \ 
+    zypper install -y \
+      make cmake valgrind git gcc-c++ libexpat-devel fftw-devel boost-devel txt2tags ccache procps gnuplot psmisc ghostscript texlive doxygen texlive-appendix texlive-wrapfig texlive-a4wide \
+      texlive-xstring vim clang llvm python3-pip python3-lxml python3-numpy python3-Sphinx python3-nbsphinx python3-recommonmark python3-sphinx_rtd_theme transfig texlive-units texlive-sidecap \
+      texlive-bclogo texlive-mdframed texlive-type1cm texlive-braket texlive-dvips-bin graphviz wget hdf5-devel lammps eigen3-devel libxc-devel ImageMagick sudo curl ninja clang-devel llvm-devel \
+      libboost_filesystem-devel libboost_program_options-devel libboost_serialization-devel libboost_system-devel libboost_test-devel libboost_timer-devel texlive-bibtex-bin texlive-makeindex-bin \
+      zlib-devel texlive-collection-latex texlive-helvetic texlive-courier python3-espressomd python3-cma zstd && \
+    zypper clean
 
 RUN wget -O /usr/bin/codecov https://raw.githubusercontent.com/junghans/codecov-bash/master/codecov
 RUN chmod +x /usr/bin/codecov
