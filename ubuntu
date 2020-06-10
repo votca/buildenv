@@ -14,10 +14,12 @@ RUN apt-get update && \
     apt-get purge --autoremove -y && \
     rm -rf /var/lib/apt/lists/*
 
-RUN source /etc/os-release; if [ "$VERSION_ID" = "16.04" ]; then \
+RUN . /etc/os-release && if [ "$VERSION_ID" = "16.04" ]; then \
   add-apt-repository -y ppa:git-core/ppa && \
   apt-get update && \
-  apt-get upgrade -y; \
+  apt-get install -y git && \
+  apt-get purge --autoremove -y && \
+  rm -rf /var/lib/apt/lists/*; \
 fi
 
 # create cc and c++ (CMake's default compiler) links for ccache
@@ -29,7 +31,10 @@ RUN chmod +x /usr/bin/codecov
 
 # install ubuntu's gromacs
 RUN if [ -z "${GMX_BRANCH}" ]; then \
+  apt-get update && \
   apt-get install -y libgromacs-dev gromacs-openmpi; \
+  apt-get purge --autoremove -y && \
+  rm -rf /var/lib/apt/lists/*; \
 fi
 
 RUN useradd -m -G sudo -u 1001 votca
