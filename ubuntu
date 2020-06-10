@@ -5,9 +5,20 @@ ARG GMX_BRANCH
 ARG GMX_DOUBLE
 
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get -q update -y
-RUN apt-get -qq install -y make cmake valgrind git g++ libexpat-dev libfftw3-dev libboost-all-dev txt2tags ccache gnuplot python3-numpy python3-numpy ghostscript texlive doxygen vim clang llvm python3-pip python3-lxml transfig wget libhdf5-dev graphviz pkg-config
-RUN apt-get -qq install -y texlive-latex-extra psmisc texlive-pstricks libeigen3-dev libxc-dev sudo curl pymol clang-tidy ninja-build libclang-dev llvm-dev python3-sphinx python3-nbsphinx python3-recommonmark python3-sphinx-rtd-theme clang-format
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y \
+       make cmake valgrind git g++ libexpat-dev libfftw3-dev libboost-all-dev txt2tags ccache gnuplot python3-numpy python3-numpy ghostscript texlive doxygen vim clang llvm python3-pip python3-lxml \
+       transfig wget libhdf5-dev graphviz pkg-config texlive-latex-extra psmisc texlive-pstricks libeigen3-dev libxc-dev sudo curl pymol clang-tidy ninja-build libclang-dev llvm-dev python3-sphinx \
+       python3-nbsphinx python3-recommonmark python3-sphinx-rtd-theme clang-format software-properties-common zstd && \
+    apt-get purge --autoremove -y && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN source /etc/os-release; if [ "$VERSION_ID" = "16.04" ]; then
+  add-apt-repository -y ppa:git-core/ppa && \
+  apt-get update && \
+  apt-get upgrade -y; \
+fi
 
 # create cc and c++ (CMake's default compiler) links for ccache
 RUN ln -s ../../bin/ccache /usr/lib/ccache/c++
