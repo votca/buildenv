@@ -1,6 +1,6 @@
 FROM fedora:latest
 
-RUN dnf -y install /usr/bin/clang-format && dnf clean all
+RUN dnf -y install /usr/bin/clang-format git && dnf clean all
 
 RUN useradd -m -G wheel -u 1001 votca
 USER votca
