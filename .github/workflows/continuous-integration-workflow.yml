@@ -29,6 +29,7 @@ jobs:
           - {tag: 'fedora_gmx9999_d', dockerfile: 'fedora', build_args: 'GMX_BRANCH=master,GMX_DOUBLE=ON'}
           - {tag: 'fedora_gmx9999', dockerfile: 'fedora', build_args: 'GMX_BRANCH=master'}
           - {tag: 'fedora_nogmx', dockerfile: 'fedora', build_args: 'GMX_BRANCH=none'}
+          - {tag: 'intel', dockerfile: 'fedora', build_args: 'INTEL=yes'}
           - {tag: 'actions', dockerfile: 'actions'}
           - {tag: 'format', dockerfile: 'format'}
     runs-on: ubuntu-latest
