@@ -4,6 +4,7 @@ FROM fedora:${TAG}
 ARG GMX_BRANCH
 ARG GMX_DOUBLE
 ARG PYTHON=python3.7
+ARG INTEL
 
 RUN dnf -y update && \
     dnf -y install \ 
@@ -22,6 +23,17 @@ RUN chmod +x /usr/bin/codecov
 # install fedora's gromacs
 RUN if [ -z "${GMX_BRANCH}" ]; then \
   dnf -y install gromacs-devel gromacs gromacs-openmpi; \
+fi
+
+RUN if [ -n "${INTEL}" ]; then \
+  mkdir -p /var/lib/yum/intel-icc && \
+  pushd /var/lib/yum/intel-icc && \
+  wget --no-verbose http://registrationcenter-download.intel.com/akdlm/irc_nas/tec/16527/parallel_studio_xe_2020_update1_professional_edition.tgz && \
+  tar -xf parallel_studio_xe_*.tgz && \
+  rm parallel_studio_xe_*.tgz && \
+  cd parallel_studio_xe_*/rpm && \
+  printf "[icc]\nname=icc\nbaseurl=$PWD\nenabled=1" > /etc/yum.repos.d/icc.repo && \
+  dnf --nogpgcheck -y install intel-icc intel-openmp intel-comp-ps-ss-bec intel-mkl-core-c; \
 fi
 
 RUN useradd -m -G wheel -u 1001 votca
