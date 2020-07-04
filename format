@@ -1,6 +1,9 @@
 FROM fedora:latest
 
-RUN dnf -y install /usr/bin/clang-format findutils git && dnf clean all
+RUN ( dnf -y update || dnf -y update ) && \
+    dnf -y install \
+      /usr/bin/clang-format findutils git && \
+    dnf clean all
 
 RUN useradd -m -G wheel -u 1001 votca
 USER votca

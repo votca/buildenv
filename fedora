@@ -6,8 +6,8 @@ ARG GMX_DOUBLE
 ARG PYTHON=python3.7
 ARG INTEL
 
-RUN dnf -y update && \
-    dnf -y install \ 
+RUN ( dnf -y update || dnf -y update ) && \
+    dnf -y install \
       make cmake valgrind git gcc-c++ expat-devel fftw-devel boost-devel txt2tags ccache procps-ng gnuplot-minimal psmisc ghostscript texlive doxygen texlive-appendix texlive-wrapfig texlive-a4wide \
       texlive-xstring vim-minimal clang llvm compiler-rt python-pip python3-lxml python3-numpy transfig texlive-units texlive-sidecap texlive-bclogo texlive-mdframed texlive-type1cm texlive-braket \
       graphviz wget hdf5-devel lammps eigen3-devel libxc-devel ImageMagick ghostscript-tools-dvipdf python3-espresso-openmpi sudo curl clang-tools-extra python3-cma ninja-build libomp-devel clang-devel \
@@ -22,7 +22,9 @@ RUN chmod +x /usr/bin/codecov
 
 # install fedora's gromacs
 RUN if [ -z "${GMX_BRANCH}" ]; then \
-  dnf -y install gromacs-devel gromacs gromacs-openmpi; \
+  ( dnf -y update || dnf -y update ) && \
+  dnf -y install gromacs-devel gromacs gromacs-openmpi && \
+  dnf clean all; \
 fi
 
 RUN if [ -n "${INTEL}" ]; then \
@@ -33,7 +35,9 @@ RUN if [ -n "${INTEL}" ]; then \
   rm parallel_studio_xe_*.tgz && \
   cd parallel_studio_xe_*/rpm && \
   printf "[icc]\nname=icc\nbaseurl=$PWD\nenabled=1" > /etc/yum.repos.d/icc.repo && \
-  dnf --nogpgcheck -y install intel-parallel-studio-xe-icc intel-parallel-studio-xe-mkl; \
+  ( dnf -y update || dnf -y update ) && \
+  dnf --nogpgcheck -y install intel-parallel-studio-xe-icc intel-parallel-studio-xe-mkl && \
+  dnf clean all; \
 fi
 
 RUN useradd -m -G wheel -u 1001 votca
