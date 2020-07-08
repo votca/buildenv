@@ -3,7 +3,7 @@ FROM fedora:${TAG}
 
 ARG GMX_BRANCH
 ARG GMX_DOUBLE
-ARG PYTHON=python3.7
+ARG PYTHON=python3.8
 ARG INTEL
 
 RUN ( dnf -y update || dnf -y update ) && \
