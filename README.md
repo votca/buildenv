@@ -2,6 +2,6 @@
 
 This is VOTCA's build environment for docker. 
 
-To learn how to use it see the [wiki](https://github.com/votca/csg/wiki/Installing).
+To learn how to use it see the [DEVELOPERS_GUIDE](https://github.com/votca/votca/blob/master/share/doc/DEVELOPERS_GUIDE.rst).
 
 Further information on VOTCA can be found at http://www.votca.org
