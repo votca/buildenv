@@ -48,11 +48,11 @@ jobs:
       - name: Build Docker images for Github
         uses: docker/build-push-action@v1.1.0
         with:
-          repository: votca/buildenv/buildenv
+          repository: votca/buildenv/${{ matrix.config.tag }}
           registry: docker.pkg.github.com
           username: votca-bot
           password: ${{ secrets.VOTCA_BOT_TOKEN }}
-          tags: ${{ matrix.config.tag }}
+          tags: latest
           dockerfile: ${{ matrix.config.dockerfile }}
           build_args: ${{ matrix.config.build_args }}
           push: ${{ github.event_name == 'push' ||  github.event_name == 'schedule' }}
