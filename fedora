@@ -1,5 +1,5 @@
 ARG TAG=latest
-FROM fedora:${TAG}
+FROM registry.fedoraproject.org/fedora:${TAG}
 
 ARG GMX_BRANCH
 ARG GMX_DOUBLE
