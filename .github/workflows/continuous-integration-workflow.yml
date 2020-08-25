@@ -56,3 +56,14 @@ jobs:
           dockerfile: ${{ matrix.config.dockerfile }}
           build_args: ${{ matrix.config.build_args }}
           push: ${{ github.event_name == 'push' ||  github.event_name == 'schedule' }}
+      - name: Build Docker images for GitLab
+        uses: docker/build-push-action@v1.1.0
+        with:
+          repository: votca/buildenv/${{ matrix.config.tag }}
+          registry: registry.gitlab.com
+          username: votca-bot
+          password: ${{ secrets.GITLAB_BUILDENV_TOKEN }}
+          tags: latest
+          dockerfile: ${{ matrix.config.dockerfile }}
+          build_args: ${{ matrix.config.build_args }}
+          push: ${{ github.event_name == 'push' ||  github.event_name == 'schedule' }}
