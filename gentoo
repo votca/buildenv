@@ -4,7 +4,7 @@ FROM gentoo/stage3-amd64:${TAG}
 RUN echo 'MAKEOPTS="-j2 -l2"' >> /etc/portage/make.conf
 RUN echo 'sci-libs/hdf5 +cxx' >> /etc/portage/package.use/votca
 RUN echo 'media-libs/gd +png' >> /etc/portage/package.use/votca
-RUN emerge --sync && emerge -j2 boost ccache cmake dev-vcs/git eigen libxc gromacs hdf5 fftw txt2tags sci-visualization/gnuplot
+RUN emaint sync -a && emerge -j2 boost ccache cmake dev-vcs/git eigen libxc gromacs hdf5 fftw txt2tags sci-visualization/gnuplot
 
 RUN wget -O /usr/bin/codecov https://raw.githubusercontent.com/junghans/codecov-bash/master/codecov
 RUN chmod +x /usr/bin/codecov
