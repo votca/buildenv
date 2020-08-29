@@ -2,7 +2,9 @@ ARG TAG=latest
 FROM gentoo/stage3-amd64:${TAG}
 
 RUN echo 'MAKEOPTS="-j2 -l2"' >> /etc/portage/make.conf
+# needed by xtp
 RUN echo 'sci-libs/hdf5 +cxx' >> /etc/portage/package.use/votca
+# needed by gnuplot
 RUN echo 'media-libs/gd +png' >> /etc/portage/package.use/votca
 RUN emaint sync -a && emerge -j2 boost ccache cmake dev-vcs/git eigen libxc gromacs hdf5 fftw txt2tags sci-visualization/gnuplot
 
