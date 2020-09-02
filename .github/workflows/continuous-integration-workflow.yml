@@ -46,11 +46,22 @@ jobs:
           dockerfile: ${{ matrix.config.dockerfile }}
           build_args: ${{ matrix.config.build_args }}
           push: ${{ github.event_name == 'push' ||  github.event_name == 'schedule' }}
-      - name: Build Docker images for Github
+      - name: Build Docker images for Github Package Registry
         uses: docker/build-push-action@v1.1.0
         with:
           repository: votca/buildenv/${{ matrix.config.dockerfile }}
           registry: docker.pkg.github.com
+          username: votca-bot
+          password: ${{ secrets.VOTCA_BOT_TOKEN }}
+          tags: ${{ matrix.config.tag2 }}
+          dockerfile: ${{ matrix.config.dockerfile }}
+          build_args: ${{ matrix.config.build_args }}
+          push: ${{ github.event_name == 'push' ||  github.event_name == 'schedule' }}
+      - name: Build Docker images for Github Container Registry
+        uses: docker/build-push-action@v1.1.0
+        with:
+          repository: votca/buildenv/${{ matrix.config.dockerfile }}
+          registry: ghcr.io
           username: votca-bot
           password: ${{ secrets.VOTCA_BOT_TOKEN }}
           tags: ${{ matrix.config.tag2 }}
