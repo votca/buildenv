@@ -11,7 +11,7 @@ on:
 
 jobs:
   CI:
-    continue-on-error: ${{ matrix.config.tag == 'ubuntu_devel' || matrix.config.tag == 'fedora_rawhide' || matrix.config.tag == 'intel' }}
+    continue-on-error: ${{ matrix.config.tag == 'ubuntu_devel' || matrix.config.tag == 'fedora_rawhide' || matrix.config.tag == 'opensuse' || matrix.config.tag == 'intel' }}
     strategy:
       matrix:
         config:
