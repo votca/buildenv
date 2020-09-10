@@ -27,16 +27,13 @@ RUN if [ -z "${GMX_BRANCH}" ]; then \
   dnf clean all; \
 fi
 
-# split intel step in 2, as ghcr.io has a limitation on layer size
 RUN if [ -n "${INTEL}" ]; then \
   mkdir -p /var/lib/yum/intel-icc && \
   pushd /var/lib/yum/intel-icc && \
   wget --no-verbose http://registrationcenter-download.intel.com/akdlm/irc_nas/tec/16527/parallel_studio_xe_2020_update1_professional_edition.tgz && \
   tar -xf parallel_studio_xe_*.tgz && \
-  rm parallel_studio_xe_*.tgz; \
-fi
-RUN if [ -n "${INTEL}" ]; then \
-  pushd /var/lib/yum/intel-icc/parallel_studio_xe_*/rpm && \
+  rm parallel_studio_xe_*.tgz && \
+  cd parallel_studio_xe_*/rpm && \
   printf "[icc]\nname=icc\nbaseurl=$PWD\nenabled=1" > /etc/yum.repos.d/icc.repo && \
   ( dnf -y update || dnf -y update ) && \
   dnf --nogpgcheck -y install intel-parallel-studio-xe-icc intel-parallel-studio-xe-mkl && \
