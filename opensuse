@@ -31,12 +31,6 @@ ENV CCACHE_MAXSIZE=250M
 WORKDIR /home/votca
 RUN mkdir .ccache
 
-# create latex.fmt before manual build
-# parallel build might trigger a raise condition for non-exisiting latex.fmt when multiple latex get executed
-RUN mkdir latex && cd latex && \
-printf '\\documentclass{article}\n\\begin{document}\ntest\n\\end{document}' > test.tex && \
-latex test.tex && cd .. && rm -rf latex
-
 RUN pip install --user coverxygen
 # build certain gromacs version as user
 RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
