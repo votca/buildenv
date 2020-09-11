@@ -11,60 +11,40 @@ on:
 
 jobs:
   CI:
-    continue-on-error: ${{ matrix.config.tag == 'ubuntu_devel' || matrix.config.tag == 'fedora_rawhide' || matrix.config.tag == 'opensuse' || matrix.config.tag == 'intel' }}
+    continue-on-error: ${{ matrix.config.continue-on-error == 'true' }}
     strategy:
       matrix:
         config:
-          - {tag: 'latest',           tag2: 'latest',    dockerfile: 'fedora'}
-          - {tag: 'fedora_rawhide',   tag2: 'rawhide',   dockerfile: 'fedora', build_args: 'PYTHON=python3.9,TAG=rawhide'}
-          - {tag: 'ubuntu',           tag2: 'latest',    dockerfile: 'ubuntu'}
-          - {tag: 'ubuntu_rolling',   tag2: 'rolling',   dockerfile: 'ubuntu', build_args: 'TAG=rolling'}
-          - {tag: 'ubuntu_devel',     tag2: 'devel',     dockerfile: 'ubuntu', build_args: 'TAG=devel'}
-          - {tag: 'ubuntu_18.04',     tag2: '18.04',     dockerfile: 'ubuntu', build_args: 'TAG=18.04'}
-          - {tag: 'opensuse',         tag2: 'latest',    dockerfile: 'opensuse'}
-          - {tag: 'gentoo',           tag2: 'latest',    dockerfile: 'gentoo'}
-          - {tag: 'fedora_gmx2019_d', tag2: 'gmx2019_d', dockerfile: 'fedora', build_args: 'GMX_BRANCH=release-2019,GMX_DOUBLE=ON'}
-          - {tag: 'fedora_gmx2019',   tag2: 'gmx2019',   dockerfile: 'fedora', build_args: 'GMX_BRANCH=release-2019'}
-          - {tag: 'fedora_gmx2020_d', tag2: 'gmx2020_d', dockerfile: 'fedora', build_args: 'GMX_BRANCH=release-2020,GMX_DOUBLE=ON'}
-          - {tag: 'fedora_gmx2020',   tag2: 'gmx2020',   dockerfile: 'fedora', build_args: 'GMX_BRANCH=release-2020'}
-          - {tag: 'fedora_gmx9999_d', tag2: 'gmx9999_d', dockerfile: 'fedora', build_args: 'GMX_BRANCH=master,GMX_DOUBLE=ON'}
-          - {tag: 'fedora_gmx9999',   tag2: 'gmx9999',   dockerfile: 'fedora', build_args: 'GMX_BRANCH=master'}
-          - {tag: 'fedora_nogmx',     tag2: 'nogmx',     dockerfile: 'fedora', build_args: 'GMX_BRANCH=none'}
-          - {tag: 'intel',            tag2: 'intel',     dockerfile: 'fedora', build_args: 'INTEL=yes'}
-          - {tag: 'actions',          tag2: 'latest',    dockerfile: 'actions'}
-          - {tag: 'format',           tag2: 'latest',    dockerfile: 'format'}
+          - {dockerfile: 'fedora',   tag: 'latest'}
+          - {dockerfile: 'fedora',   tag: 'rawhide',   build_args: 'PYTHON=python3.9,TAG=rawhide', continue-on-error: 'true'}
+          - {dockerfile: 'ubuntu',   tag: 'latest'}
+          - {dockerfile: 'ubuntu',   tag: 'rolling',   build_args: 'TAG=rolling'}
+          - {dockerfile: 'ubuntu',   tag: 'devel',     build_args: 'TAG=devel', continue-on-error: 'true'}
+          - {dockerfile: 'ubuntu',   tag: '18.04',     build_args: 'TAG=18.04'}
+          - {dockerfile: 'opensuse', tag: 'latest'}
+          - {dockerfile: 'gentoo',   tag: 'latest'}
+          - {dockerfile: 'fedora',   tag: 'gmx2019_d', build_args: 'GMX_BRANCH=release-2019,GMX_DOUBLE=ON'}
+          - {dockerfile: 'fedora',   tag: 'gmx2019',   build_args: 'GMX_BRANCH=release-2019'}
+          - {dockerfile: 'fedora',   tag: 'gmx2020_d', build_args: 'GMX_BRANCH=release-2020,GMX_DOUBLE=ON'}
+          - {dockerfile: 'fedora',   tag: 'gmx2020',   build_args: 'GMX_BRANCH=release-2020'}
+          - {dockerfile: 'fedora',   tag: 'gmx9999_d', build_args: 'GMX_BRANCH=master,GMX_DOUBLE=ON'}
+          - {dockerfile: 'fedora',   tag: 'gmx9999',   build_args: 'GMX_BRANCH=master'}
+          - {dockerfile: 'fedora',   tag: 'nogmx',     build_args: 'GMX_BRANCH=none'}
+          - {dockerfile: 'fedora',   tag: 'intel',     build_args: 'INTEL=yes'}
+          - {dockerfile: 'actions',  tag: 'latest'}
+          - {dockerfile: 'format',   tag: 'latest'}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - name: Build Docker images for Docker Hub
-        uses: docker/build-push-action@v1.1.0
-        with:
-          repository: votca/buildenv
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          tags: ${{ matrix.config.tag }}
-          dockerfile: ${{ matrix.config.dockerfile }}
-          build_args: ${{ matrix.config.build_args }}
-          push: ${{ github.event_name == 'push' ||  github.event_name == 'schedule' }}
+      - name: Checkout out code
+        uses: actions/checkout@v2.3.2
       - name: Build Docker images for GitLab
-        uses: docker/build-push-action@v1.1.0
-        with:
-          repository: votca/buildenv
-          registry: registry.gitlab.com
-          username: votca-bot
-          password: ${{ secrets.GITLAB_REGISTRY_TOKEN }}
-          tags: ${{ matrix.config.tag }}
-          dockerfile: ${{ matrix.config.dockerfile }}
-          build_args: ${{ matrix.config.build_args }}
-          push: ${{ github.event_name == 'push' ||  github.event_name == 'schedule' }}
-      - name: Build Docker images for GitLab (Reorg)
         uses: docker/build-push-action@v1.1.0
         with:
           repository: votca/buildenv/${{ matrix.config.dockerfile }}
           registry: registry.gitlab.com
           username: votca-bot
           password: ${{ secrets.GITLAB_REGISTRY_TOKEN }}
-          tags: ${{ matrix.config.tag2 }}
+          tags: ${{ matrix.config.tag }}
           dockerfile: ${{ matrix.config.dockerfile }}
           build_args: ${{ matrix.config.build_args }}
           push: ${{ github.event_name == 'push' ||  github.event_name == 'schedule' }}
@@ -75,7 +55,7 @@ jobs:
           registry: ghcr.io
           username: votca-bot
           password: ${{ secrets.VOTCA_BOT_TOKEN }}
-          tags: ${{ matrix.config.tag2 }}
+          tags: ${{ matrix.config.tag }}
           dockerfile: ${{ matrix.config.dockerfile }}
           build_args: ${{ matrix.config.build_args }}
           push: ${{ github.event_name == 'push' ||  github.event_name == 'schedule' }}

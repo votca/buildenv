@@ -26,11 +26,10 @@ RUN if [ -z "${GMX_BRANCH}" ]; then \
   dnf -y install gromacs-devel gromacs gromacs-openmpi && \
   dnf clean all; \
 fi
-
 RUN if [ -n "${INTEL}" ]; then \
   mkdir -p /var/lib/yum/intel-icc && \
   pushd /var/lib/yum/intel-icc && \
-  wget --no-verbose http://registrationcenter-download.intel.com/akdlm/irc_nas/tec/16527/parallel_studio_xe_2020_update1_professional_edition.tgz && \
+  wget --no-verbose http://registrationcenter-download.intel.com/akdlm/irc_nas/tec/16756/parallel_studio_xe_2020_update2_professional_edition.tgz && \
   tar -xf parallel_studio_xe_*.tgz && \
   rm parallel_studio_xe_*.tgz && \
   cd parallel_studio_xe_*/rpm && \
@@ -52,13 +51,6 @@ ENV CCACHE_MAXSIZE=250M
 WORKDIR /home/votca
 RUN mkdir .ccache
 
-# create latex.fmt before manual build
-# parallel build might trigger a raise condition for non-exisiting latex.fmt when multiple latex get executed
-RUN mkdir latex && cd latex && \
-printf '\\documentclass{article}\n\\begin{document}\ntest\n\\end{document}' > test.tex && \
-latex test.tex && cd .. && rm -rf latex
-
-RUN pip install --user coverxygen
 # build certain gromacs version as user
 RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
   git clone --depth 1 -b "${GMX_BRANCH}" https://github.com/gromacs/gromacs.git && \
