@@ -35,7 +35,7 @@ jobs:
           - {tag: 'latest',    dockerfile: 'format'}
     runs-on: ubuntu-latest
     steps:
-      - name: Build Docker images for GitLab (Reorg)
+      - name: Build Docker images for GitLab
         uses: docker/build-push-action@v1.1.0
         with:
           repository: votca/buildenv/${{ matrix.config.dockerfile }}
