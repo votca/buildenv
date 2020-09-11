@@ -11,15 +11,15 @@ on:
 
 jobs:
   CI:
-    continue-on-error: ${{ matrix.config.tag == 'ubuntu_devel' || matrix.config.tag == 'fedora_rawhide' }}
+    continue-on-error: ${{ matrix.continue-on-error == true }}
     strategy:
       matrix:
         config:
           - {tag: 'latest',           tag2: 'latest',    dockerfile: 'fedora'}
-          - {tag: 'fedora_rawhide',   tag2: 'rawhide',   dockerfile: 'fedora', build_args: 'PYTHON=python3.9,TAG=rawhide'}
+          - {tag: 'fedora_rawhide',   tag2: 'rawhide',   dockerfile: 'fedora', build_args: 'PYTHON=python3.9,TAG=rawhide', continue-on-error: 'true'}
           - {tag: 'ubuntu',           tag2: 'latest',    dockerfile: 'ubuntu'}
           - {tag: 'ubuntu_rolling',   tag2: 'rolling',   dockerfile: 'ubuntu', build_args: 'TAG=rolling'}
-          - {tag: 'ubuntu_devel',     tag2: 'devel',     dockerfile: 'ubuntu', build_args: 'TAG=devel'}
+          - {tag: 'ubuntu_devel',     tag2: 'devel',     dockerfile: 'ubuntu', build_args: 'TAG=devel', continue-on-error: 'true'}
           - {tag: 'ubuntu_18.04',     tag2: '18.04',     dockerfile: 'ubuntu', build_args: 'TAG=18.04'}
           - {tag: 'opensuse',         tag2: 'latest',    dockerfile: 'opensuse'}
           - {tag: 'gentoo',           tag2: 'latest',    dockerfile: 'gentoo'}
