@@ -26,11 +26,10 @@ RUN if [ -z "${GMX_BRANCH}" ]; then \
   dnf -y install gromacs-devel gromacs gromacs-openmpi && \
   dnf clean all; \
 fi
-
 RUN if [ -n "${INTEL}" ]; then \
   mkdir -p /var/lib/yum/intel-icc && \
   pushd /var/lib/yum/intel-icc && \
-  wget --no-verbose http://registrationcenter-download.intel.com/akdlm/irc_nas/tec/16527/parallel_studio_xe_2020_update1_professional_edition.tgz && \
+  wget --no-verbose http://registrationcenter-download.intel.com/akdlm/irc_nas/tec/16756/parallel_studio_xe_2020_update2_professional_edition.tgz && \
   tar -xf parallel_studio_xe_*.tgz && \
   rm parallel_studio_xe_*.tgz && \
   cd parallel_studio_xe_*/rpm && \
