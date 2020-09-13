@@ -1,5 +1,5 @@
 ARG TAG=latest
-FROM gentoo/stage3-amd64:${TAG}
+FROM gentoo/stage3:${TAG}
 
 RUN echo 'MAKEOPTS="-j2 -l2"' >> /etc/portage/make.conf
 # needed by xtp
