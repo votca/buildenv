@@ -10,7 +10,7 @@ RUN zypper dup -y && \
       python3-pandas transfig texlive-units texlive-sidecap texlive-bclogo texlive-mdframed texlive-type1cm texlive-braket texlive-dvips-bin graphviz wget hdf5-devel lammps eigen3-devel libxc-devel \
       ImageMagick sudo curl ninja clang-devel llvm-devel libboost_filesystem-devel libboost_program_options-devel libboost_serialization-devel libboost_system-devel libboost_regex-devel \
       libboost_test-devel libboost_timer-devel texlive-bibtex-bin texlive-makeindex-bin zlib-devel texlive-collection-latex texlive-helvetic texlive-courier python3-cma zstd \
-      kokkos-devel libomp-devel pandoc gmp-devel && \
+      kokkos-devel libomp-devel pandoc libint-devel && \
     zypper clean
 
 RUN wget -O /usr/bin/codecov https://raw.githubusercontent.com/junghans/codecov-bash/master/codecov
