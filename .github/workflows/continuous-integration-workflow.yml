@@ -22,7 +22,6 @@ jobs:
           - {dockerfile: 'ubuntu',   tag: 'devel',     build_args: 'TAG=devel', continue-on-error: 'true'}
           - {dockerfile: 'ubuntu',   tag: '18.04',     build_args: 'TAG=18.04'}
           - {dockerfile: 'opensuse', tag: 'latest'}
-          - {dockerfile: 'gentoo',   tag: 'latest'}
           - {dockerfile: 'fedora',   tag: 'gmx2019_d', build_args: 'GMX_BRANCH=release-2019,GMX_DOUBLE=ON'}
           - {dockerfile: 'fedora',   tag: 'gmx2019',   build_args: 'GMX_BRANCH=release-2019'}
           - {dockerfile: 'fedora',   tag: 'gmx2020_d', build_args: 'GMX_BRANCH=release-2020,GMX_DOUBLE=ON'}
