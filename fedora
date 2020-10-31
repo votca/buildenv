@@ -12,7 +12,7 @@ RUN ( dnf -y update || dnf -y update ) && \
       texlive-xstring vim-minimal clang llvm compiler-rt python-pip python3-lxml python3-numpy transfig texlive-units texlive-sidecap texlive-bclogo texlive-mdframed texlive-type1cm texlive-braket \
       graphviz wget hdf5-devel lammps eigen3-devel libxc-devel ImageMagick ghostscript-tools-dvipdf python3-espresso-openmpi sudo curl clang-tools-extra python3-cma ninja-build libomp-devel clang-devel \
       llvm-devel python3-sphinx python3-nbsphinx python3-recommonmark python3-sphinx_rtd_theme python3-ipykernel python3-seaborn kokkos-devel texlive-newunicodechar zstd  libint2-devel \
-      automake autoconf mpfr-devel libecpint-devel && \
+      libecpint-devel && \
     dnf clean all
 
 # set https://github.com/votca/buildenv/issues/22
