@@ -22,9 +22,10 @@ RUN . /etc/os-release && if [ "$VERSION_ID" = "18.04" ]; then \
   rm -rf /var/lib/apt/lists/*; \
 fi
 
-RUN wget http://ftp.us.debian.org/debian/pool/main/libe/libecpint/libecpint-dev_1.0.2-1_amd64.deb && \
-  sudo dpkg -i libecpint*_amd64.deb && \
-  rm libecpint*_amd64.deb
+RUN pkg=$(curl http://ftp.us.debian.org/debian/pool/main/libe/libecpint/ | sed -n 's/.*\(libecpint-dev.*amd64.deb\).*/\1/p' | sort | tail -n1) && \
+  wget "http://ftp.us.debian.org/debian/pool/main/libe/libecpint/$pkg" && \
+  sudo dpkg -i "$pkg" && \
+  rm "$pkg"
 
 # create cc and c++ (CMake's default compiler) links for ccache
 RUN ln -s ../../bin/ccache /usr/lib/ccache/c++
