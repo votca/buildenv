@@ -18,9 +18,6 @@ RUN ( dnf -y update || dnf -y update ) && \
 # set https://github.com/votca/buildenv/issues/22
 RUN alternatives --set gnuplot /usr/bin/gnuplot-minimal
 
-RUN wget -O /usr/bin/codecov https://raw.githubusercontent.com/junghans/codecov-bash/master/codecov
-RUN chmod +x /usr/bin/codecov
-
 # install fedora's gromacs
 RUN if [ -z "${GMX_BRANCH}" ]; then \
   ( dnf -y update || dnf -y update ) && \

@@ -31,9 +31,6 @@ RUN pkg=$(curl http://ftp.us.debian.org/debian/pool/main/libe/libecpint/ | sed -
 RUN ln -s ../../bin/ccache /usr/lib/ccache/c++
 RUN ln -s ../../bin/ccache /usr/lib/ccache/cc
 
-RUN wget -O /usr/bin/codecov https://raw.githubusercontent.com/junghans/codecov-bash/master/codecov
-RUN chmod +x /usr/bin/codecov
-
 # install ubuntu's gromacs
 RUN if [ -z "${GMX_BRANCH}" ]; then \
   apt-get update && \

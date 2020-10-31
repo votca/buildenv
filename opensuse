@@ -13,9 +13,6 @@ RUN zypper dup -y && \
       kokkos-devel libomp-devel libint-devel libecpint-devel && \
     zypper clean
 
-RUN wget -O /usr/bin/codecov https://raw.githubusercontent.com/junghans/codecov-bash/master/codecov
-RUN chmod +x /usr/bin/codecov
-
 # install opensuse's gromacs
 RUN if [ -z "${GMX_BRANCH}" ]; then \
   zypper install -y gromacs-devel gromacs gromacs-openmpi2; \
