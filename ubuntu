@@ -22,16 +22,20 @@ RUN . /etc/os-release && if [ "$VERSION_ID" = "18.04" ]; then \
   rm -rf /var/lib/apt/lists/*; \
 fi
 
-RUN wget http://ftp.us.debian.org/debian/pool/main/libe/libecpint/libecpint-dev_1.0.2-1_amd64.deb && \
-  sudo dpkg -i libecpint*_amd64.deb && \
-  rm libecpint*_amd64.deb
+RUN . /etc/os-release && if [ "$VERSION_ID" = "21.04" ]; then \
+  apt-get install -y libecpint-dev && \
+  apt-get purge --autoremove -y && \
+  rm -rf /var/lib/apt/lists/*; \
+else \
+  pkg=$(curl http://ftp.us.debian.org/debian/pool/main/libe/libecpint/ | sed -n 's/.*\(libecpint-dev.*amd64.deb\).*/\1/p' | sort | tail -n1) && \
+  wget "http://ftp.us.debian.org/debian/pool/main/libe/libecpint/$pkg" && \
+  sudo dpkg -i "$pkg" && \
+  rm "$pkg"; \
+fi
 
 # create cc and c++ (CMake's default compiler) links for ccache
 RUN ln -s ../../bin/ccache /usr/lib/ccache/c++
 RUN ln -s ../../bin/ccache /usr/lib/ccache/cc
-
-RUN wget -O /usr/bin/codecov https://raw.githubusercontent.com/junghans/codecov-bash/master/codecov
-RUN chmod +x /usr/bin/codecov
 
 # install ubuntu's gromacs
 RUN if [ -z "${GMX_BRANCH}" ]; then \
