@@ -51,7 +51,7 @@ RUN mkdir .ccache
 
 # build certain gromacs version as user
 RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
-  git clone --depth 1 -b "${GMX_BRANCH}" https://github.com/gromacs/gromacs.git && \
+  git clone --depth 1 -b "${GMX_BRANCH}" https://gitlab.com/gromacs/gromacs.git && \
   mkdir gromacs/build && cd gromacs/build && \
   if [ "${GMX_BRANCH}" != release-2019 ]; then \
     gmx_cmake_opts="-DGMX_INSTALL_LEGACY_API=ON"; \
