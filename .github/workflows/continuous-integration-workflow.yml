@@ -56,8 +56,8 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           tags: |
-            registry.gitlab.com:votca/buildenv/${{ matrix.config.dockerfile }}:${{ matrix.config.tag }}
-            ghcr.io:votca/buildenv/${{ matrix.config.dockerfile }}:${{ matrix.config.tag }}
+            registry.gitlab.com/votca/buildenv/${{ matrix.config.dockerfile }}:${{ matrix.config.tag }}
+            ghcr.io/votca/buildenv/${{ matrix.config.dockerfile }}:${{ matrix.config.tag }}
           file: ${{ matrix.config.dockerfile }}
           build-args: ${{ matrix.config.build_args }}
           pull: true
