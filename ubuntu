@@ -9,7 +9,7 @@ RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y \
        make cmake valgrind git g++ libexpat-dev libfftw3-dev libboost-all-dev txt2tags ccache gnuplot python3-numpy python3-numpy ghostscript texlive doxygen vim clang llvm python3-pip python3-lxml \
-       transfig wget libhdf5-dev graphviz pkg-config texlive-latex-extra psmisc texlive-pstricks libeigen3-dev libxc-dev sudo curl pymol clang-tidy ninja-build libclang-dev llvm-dev \
+       transfig wget libhdf5-dev graphviz pkg-config texlive-latex-extra psmisc texlive-pstricks libeigen3-dev libxc-dev sudo curl clang-tidy ninja-build libclang-dev llvm-dev \
        clang-format software-properties-common zstd libint2-dev libpugixml-dev && \
     apt-get purge --autoremove -y && \
     rm -rf /var/lib/apt/lists/*
