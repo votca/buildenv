@@ -13,6 +13,7 @@ jobs:
   CI:
     continue-on-error: ${{ matrix.config.continue-on-error == 'true' }}
     strategy:
+      max-parallel: 4
       matrix:
         config:
           - {dockerfile: 'fedora',   tag: 'latest'}
