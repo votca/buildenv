@@ -16,23 +16,23 @@ jobs:
       matrix:
         config:
           - {dockerfile: 'fedora',   tag: 'latest'}
-          - {dockerfile: 'fedora',   tag: 'rawhide',          build_args: 'TAG=rawhide', continue-on-error: 'true'}
+          - {dockerfile: 'fedora',   tag: 'rawhide',      build_args: 'TAG=rawhide', continue-on-error: 'true'}
           - {dockerfile: 'ubuntu',   tag: 'latest'}
-          - {dockerfile: 'ubuntu',   tag: 'rolling',          build_args: 'TAG=rolling'}
-          - {dockerfile: 'ubuntu',   tag: 'devel',            build_args: 'TAG=devel', continue-on-error: 'true'}
-          - {dockerfile: 'ubuntu',   tag: '18.04',            build_args: 'TAG=18.04'}
+          - {dockerfile: 'ubuntu',   tag: 'rolling',      build_args: 'TAG=rolling'}
+          - {dockerfile: 'ubuntu',   tag: 'devel',        build_args: 'TAG=devel', continue-on-error: 'true'}
+          - {dockerfile: 'ubuntu',   tag: '18.04',        build_args: 'TAG=18.04'}
           - {dockerfile: 'opensuse', tag: 'latest'}
-          - {dockerfile: 'fedora',   tag: 'gmx2019_d',        build_args: 'GMX_BRANCH=release-2019', build_args2: 'GMX_DOUBLE=ON'}
-          - {dockerfile: 'fedora',   tag: 'gmx2019',          build_args: 'GMX_BRANCH=release-2019'}
-          - {dockerfile: 'fedora',   tag: 'gmx2020_d',        build_args: 'GMX_BRANCH=release-2020', build_args2: 'GMX_DOUBLE=ON'}
-          - {dockerfile: 'fedora',   tag: 'gmx2020',          build_args: 'GMX_BRANCH=release-2020'}
-          - {dockerfile: 'fedora',   tag: 'gmx2021_d',        build_args: 'GMX_BRANCH=release-2021', build_args2: 'GMX_DOUBLE=ON'}
-          - {dockerfile: 'fedora',   tag: 'gmx2021',          build_args: 'GMX_BRANCH=release-2021'}
-          - {dockerfile: 'fedora',   tag: 'gmx9999_d',        build_args: 'GMX_BRANCH=master', build_args2: 'GMX_DOUBLE=ON'}
-          - {dockerfile: 'fedora',   tag: 'gmx9999',          build_args: 'GMX_BRANCH=master'}
-          - {dockerfile: 'fedora',   tag: 'nogmx',            build_args: 'GMX_BRANCH=none'}
-          - {dockerfile: 'fedora',   tag: 'intel',            build_args: 'INTEL=yes'}
-          - {dockerfile: 'fedora',   tag: 'intel-oneapi',     build_args: 'INTEL_ONEAPI=yes'}
+          - {dockerfile: 'fedora',   tag: 'gmx2019_d',    build_args: 'GMX_BRANCH=release-2019,GMX_DOUBLE=ON'}
+          - {dockerfile: 'fedora',   tag: 'gmx2019',      build_args: 'GMX_BRANCH=release-2019'}
+          - {dockerfile: 'fedora',   tag: 'gmx2020_d',    build_args: 'GMX_BRANCH=release-2020,GMX_DOUBLE=ON'}
+          - {dockerfile: 'fedora',   tag: 'gmx2020',      build_args: 'GMX_BRANCH=release-2020'}
+          - {dockerfile: 'fedora',   tag: 'gmx2021_d',    build_args: 'GMX_BRANCH=release-2021,GMX_DOUBLE=ON'}
+          - {dockerfile: 'fedora',   tag: 'gmx2021',      build_args: 'GMX_BRANCH=release-2021'}
+          - {dockerfile: 'fedora',   tag: 'gmx9999_d',    build_args: 'GMX_BRANCH=master,GMX_DOUBLE=ON'}
+          - {dockerfile: 'fedora',   tag: 'gmx9999',      build_args: 'GMX_BRANCH=master'}
+          - {dockerfile: 'fedora',   tag: 'nogmx',        build_args: 'GMX_BRANCH=none'}
+          - {dockerfile: 'fedora',   tag: 'intel',        build_args: 'INTEL=yes'}
+          - {dockerfile: 'fedora',   tag: 'intel-oneapi', build_args: 'INTEL_ONEAPI=yes'}
           - {dockerfile: 'actions',  tag: 'latest'}
           - {dockerfile: 'format',   tag: 'latest'}
     runs-on: ubuntu-latest
@@ -48,7 +48,7 @@ jobs:
           password: ${{ secrets.GITLAB_REGISTRY_TOKEN }}
           tags: ${{ matrix.config.tag }}
           dockerfile: ${{ matrix.config.dockerfile }}
-          build_args: ${{ matrix.config.build_args }},${{ matrix.config.build_args2 }}
+          build_args: ${{ matrix.config.build_args }}
           push: ${{ github.event_name == 'push' ||  github.event_name == 'schedule' }}
       - name: Build Docker images for Github Container Registry
         uses: docker/build-push-action@v1
@@ -59,5 +59,5 @@ jobs:
           password: ${{ secrets.VOTCA_BOT_TOKEN }}
           tags: ${{ matrix.config.tag }}
           dockerfile: ${{ matrix.config.dockerfile }}
-          build_args: ${{ matrix.config.build_args }},${{ matrix.config.build_args2 }}
+          build_args: ${{ matrix.config.build_args }}
           push: ${{ github.event_name == 'push' ||  github.event_name == 'schedule' }}
