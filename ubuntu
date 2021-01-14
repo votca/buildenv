@@ -14,14 +14,6 @@ RUN apt-get update && \
     apt-get purge --autoremove -y && \
     rm -rf /var/lib/apt/lists/*
 
-RUN . /etc/os-release && if [ "$VERSION_ID" = "18.04" ]; then \
-  add-apt-repository -y ppa:git-core/ppa && \
-  apt-get update && \
-  apt-get install -y git && \
-  apt-get purge --autoremove -y && \
-  rm -rf /var/lib/apt/lists/*; \
-fi
-
 RUN . /etc/os-release && if [ "$VERSION_ID" = "21.10" ]; then \
   apt-get install -y libecpint-dev && \
   apt-get purge --autoremove -y && \
