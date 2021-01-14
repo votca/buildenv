@@ -12,7 +12,7 @@ RUN ( dnf -y update || dnf -y update ) && \
       make cmake valgrind git gcc-c++ expat-devel fftw-devel boost-devel txt2tags ccache procps-ng gnuplot-minimal psmisc vim-minimal clang llvm compiler-rt \
       python-pip python3-lxml python3-numpy wget hdf5-devel lammps eigen3-devel libxc-devel python3-espresso-openmpi sudo curl clang-tools-extra python3-cma \
       ninja-build libomp-devel clang-devel llvm-devel python3-sphinx python3-nbsphinx python3-recommonmark python3-sphinx_rtd_theme python3-ipykernel \
-      python3-seaborn zstd  libint2-devel libecpint-devel && \
+      python3-seaborn zstd  libint2-devel libecpint-devel doxygen && \
     dnf clean all
 
 # set https://github.com/votca/buildenv/issues/22
