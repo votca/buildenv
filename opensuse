@@ -8,7 +8,7 @@ RUN zypper dup -y && \
       make cmake valgrind git gcc-c++ libexpat-devel fftw-devel boost-devel txt2tags ccache procps gnuplot psmisc vim clang llvm python3-pip python3-lxml python3-numpy \
       wget hdf5-devel lammps eigen3-devel libxc-devel sudo curl ninja clang-devel llvm-devel libboost_filesystem-devel libboost_program_options-devel libboost_serialization-devel \
       libboost_system-devel libboost_regex-devel libboost_test-devel libboost_timer-devel zlib-devel python3-cma zstd \
-      libomp-devel libint-devel libecpint-devel doxygen && \
+      libomp-devel libint-devel libecpint-devel doxygen python3-h5py && \
     zypper clean
 
 # install opensuse's gromacs
