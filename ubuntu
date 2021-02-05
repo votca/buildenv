@@ -14,7 +14,8 @@ RUN apt-get update && \
     apt-get purge --autoremove -y && \
     rm -rf /var/lib/apt/lists/*
 
-RUN . /etc/os-release && if  [ -n "${VERSION_ID##20*}" ]; then \
+# re-enable when using ubuntu has libecpint-1.0.5
+RUN . /etc/os-release && if  [ -n "${VERSION_ID##20*}" ] && false; then \
   apt-get update && \
   apt-get install -y libecpint-dev && \
   apt-get purge --autoremove -y && \
