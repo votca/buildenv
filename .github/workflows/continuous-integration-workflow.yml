@@ -29,7 +29,6 @@ jobs:
           - {dockerfile: 'fedora',   tag: 'gmx9999',      build_args: 'GMX_BRANCH=master', continue-on-error: 'true'}
           - {dockerfile: 'fedora',   tag: 'nogmx',        build_args: 'GMX_BRANCH=none'}
           - {dockerfile: 'fedora',   tag: 'intel',        build_args: 'INTEL=yes'}
-          - {dockerfile: 'fedora',   tag: 'intel-oneapi', build_args: 'INTEL_ONEAPI=yes'}
           - {dockerfile: 'actions',  tag: 'latest'}
           - {dockerfile: 'format',   tag: 'latest'}
     runs-on: ubuntu-latest
