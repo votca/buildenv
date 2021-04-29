@@ -23,8 +23,6 @@ jobs:
           - {dockerfile: 'opensuse', tag: 'latest', continue-on-error: 'true'}
           - {dockerfile: 'fedora',   tag: 'gmx2019_d',    build_args: 'GMX_BRANCH=release-2019,GMX_DOUBLE=ON'}
           - {dockerfile: 'fedora',   tag: 'gmx2019',      build_args: 'GMX_BRANCH=release-2019'}
-          - {dockerfile: 'fedora',   tag: 'gmx2020_d',    build_args: 'GMX_BRANCH=release-2020,GMX_DOUBLE=ON'}
-          - {dockerfile: 'fedora',   tag: 'gmx2020',      build_args: 'GMX_BRANCH=release-2020'}
           - {dockerfile: 'fedora',   tag: 'gmx2021_d',    build_args: 'GMX_BRANCH=release-2021,GMX_DOUBLE=ON'}
           - {dockerfile: 'fedora',   tag: 'gmx2021',      build_args: 'GMX_BRANCH=release-2021'}
           - {dockerfile: 'fedora',   tag: 'gmx9999_d',    build_args: 'GMX_BRANCH=master,GMX_DOUBLE=ON'}
