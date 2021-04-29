@@ -11,7 +11,7 @@ RUN ( dnf -y update || dnf -y update ) && \
     dnf -y install \
       make cmake valgrind git gcc-c++ expat-devel fftw-devel boost-devel txt2tags ccache procps-ng gnuplot-minimal psmisc vim-minimal clang llvm compiler-rt \
       python-pip python3-lxml python3-numpy wget hdf5-devel lammps eigen3-devel libxc-devel python3-espresso-openmpi sudo curl clang-tools-extra python3-cma \
-      ninja-build libomp-devel clang-devel llvm-devel python3-sphinx python3-nbsphinx python3-recommonmark python3-sphinx_rtd_theme python3-ipykernel \
+      ninja-build libomp-devel clang-devel llvm-devel python3-sphinx python3-nbsphinx python3-recommonmark python3-sphinx_rtd_theme python3-ipykernel patch \
       python3-seaborn python3-numpydoc zstd  libint2-devel libecpint-devel doxygen python3-rdkit python3-h5py pybind11-devel python3-coverage python3-pytest-cov && \
     dnf clean all
 
@@ -66,6 +66,8 @@ RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
   mkdir gromacs/build && cd gromacs/build && \
   if [ "${GMX_BRANCH}" != release-2019 ]; then \
     gmx_cmake_opts="-DGMX_INSTALL_LEGACY_API=ON"; \
+  else \
+    curl https://gitlab.com/gromacs/gromacs/-/merge_requests/1524.patch | patch -d .. -p 1; \
   fi && \
   cmake -DCMAKE_INSTALL_PREFIX=/usr -DGMX_SIMD=SSE2 -DGMX_DOUBLE=${GMX_DOUBLE} ${gmx_cmake_opts} .. && \
   make -j3 && \
