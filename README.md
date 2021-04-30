@@ -1,4 +1,4 @@
-[![CI](https://github.com/votca/buildenv/workflows/CI/badge.svg)](https://github.com/votca/buildenv/actions?query=branch%3Agithub_actions+workflow%3ACI)
+[![CI](https://github.com/votca/buildenv/workflows/CI/badge.svg)](https://github.com/votca/buildenv/actions?query=branch%3Amaster+workflow%3ACI)
 
 This is VOTCA's build environment for docker. 
 
