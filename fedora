@@ -35,7 +35,7 @@ RUN useradd -m -G wheel -u 1001 votca
 RUN echo '%wheel ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER votca
 ENV PATH=/usr/lib64/ccache:/usr/lib64/openmpi/bin${PATH:+:}${PATH}
-ENV PATH=${INTEL:+/opt/intel/oneapi/compiler/latest/linux/bin:/opt/intel/oneapi/compiler/latest/linux/bin/intel64:}${PATH:+:}${PATH}
+ENV PATH=${INTEL:+/opt/intel/oneapi/compiler/latest/linux/bin:/opt/intel/oneapi/compiler/latest/linux/bin/intel64}${PATH:+:}${PATH}
 ENV LD_LIBRARY_PATH=${INTEL:+/opt/intel/oneapi/compiler/latest/linux/compiler/lib/intel64:/opt/intel/oneapi/mkl/latest/lib/intel64}${LD_LIBRARY_PATH:+:}${LD_LIBRARY_PATH}
 RUN XPYTHON=$(basename $(readlink -f /usr/bin/python3)); if [[ ${XPYTHON} != ${PYTHON} ]]; then echo "PYTHON default needs update (is currently ${PYTHON}, but found ${XPYTHON})"; exit 1; fi
 ENV PYTHONPATH=/usr/lib64/${PYTHON:-python3.7}/site-packages/openmpi${PYTHONPATH:+:}${PYTHONPATH}
