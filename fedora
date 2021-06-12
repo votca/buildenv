@@ -53,7 +53,7 @@ RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
     curl https://gitlab.com/gromacs/gromacs/-/merge_requests/1524.patch | patch -d .. -p 1; \
   fi && \
   cmake -DCMAKE_INSTALL_PREFIX=/usr -DGMX_SIMD=SSE2 -DGMX_DOUBLE=${GMX_DOUBLE} ${gmx_cmake_opts} .. && \
-  make -j3 && \
+  make -j3 VERBOSE=1 && \
   sudo make install && \
   cd ../..; \
 fi
