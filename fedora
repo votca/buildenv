@@ -16,7 +16,7 @@ RUN ( dnf -y update || dnf -y update ) && \
 
 RUN if [ "${TAG}" != "rawhide" ]; then \
   ( dnf -y update || dnf -y update ) && \
-  dnf -y install python3-rdkit &&
+  dnf -y install python3-rdkit && \
   dnf clean all; \
 fi
 
