@@ -11,8 +11,14 @@ RUN ( dnf -y update || dnf -y update ) && \
       make cmake valgrind git gcc-c++ expat-devel fftw-devel boost-devel txt2tags ccache procps-ng gnuplot-minimal psmisc vim-minimal clang llvm compiler-rt \
       python-pip python3-lxml python3-numpy wget hdf5-devel lammps eigen3-devel libxc-devel python3-espresso-openmpi sudo curl clang-tools-extra python3-cma \
       ninja-build libomp-devel clang-devel llvm-devel python3-sphinx python3-nbsphinx python3-recommonmark python3-sphinx_rtd_theme python3-ipykernel patch \
-      python3-seaborn python3-numpydoc zstd  libint2-devel libecpint-devel doxygen python3-rdkit python3-h5py pybind11-devel python3-coverage python3-pytest-cov && \
+      python3-seaborn python3-numpydoc zstd  libint2-devel libecpint-devel doxygen python3-h5py pybind11-devel python3-coverage python3-pytest-cov && \
     dnf clean all
+
+RUN if [ "${TAG}" != "rawhide" ]; then
+  ( dnf -y update || dnf -y update ) && \
+  dnf -y install python3-rdkit &&
+  dnf clean all; \
+fi
 
 # set https://github.com/votca/buildenv/issues/22
 RUN alternatives --set gnuplot /usr/bin/gnuplot-minimal
