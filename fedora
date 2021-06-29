@@ -14,7 +14,7 @@ RUN ( dnf -y update || dnf -y update ) && \
       python3-seaborn python3-numpydoc zstd  libint2-devel libecpint-devel doxygen python3-h5py pybind11-devel python3-coverage python3-pytest-cov && \
     dnf clean all
 
-RUN if [ "${TAG}" != "rawhide" ]; then
+RUN if [ "${TAG}" != "rawhide" ]; then \
   ( dnf -y update || dnf -y update ) && \
   dnf -y install python3-rdkit &&
   dnf clean all; \
