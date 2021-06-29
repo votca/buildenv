@@ -16,7 +16,7 @@ jobs:
       matrix:
         config:
           - {dockerfile: 'fedora',   tag: 'latest'}
-          - {dockerfile: 'fedora',   tag: 'rawhide',      build_args: 'TAG=rawhide', continue-on-error: 'true'}
+          - {dockerfile: 'fedora',   tag: 'rawhide',      build_args: 'TAG=rawhide,PYTHON=python3.10', continue-on-error: 'true'}
           - {dockerfile: 'ubuntu',   tag: 'latest'}
           - {dockerfile: 'ubuntu',   tag: 'rolling',      build_args: 'TAG=rolling'}
           - {dockerfile: 'ubuntu',   tag: 'devel',        build_args: 'TAG=devel', continue-on-error: 'true'}
