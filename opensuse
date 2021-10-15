@@ -2,6 +2,7 @@ FROM opensuse/tumbleweed:latest
 
 ARG GMX_BRANCH
 ARG GMX_DOUBLE
+ARG OPENMPI=openmpi4
 
 RUN zypper dup -y && \
     zypper install -y \
@@ -13,15 +14,16 @@ RUN zypper dup -y && \
 
 # install opensuse's gromacs
 RUN if [ -z "${GMX_BRANCH}" ]; then \
-  zypper install -y gromacs-devel gromacs gromacs-openmpi2; \
+  zypper install -y gromacs-devel gromacs gromacs-openmpi; \
 fi
 
 RUN groupadd -r wheel
 RUN useradd -m -G wheel -u 1001 votca
 RUN echo '%wheel ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER votca
-ENV PATH=/usr/lib64/ccache:/usr/lib64/mpi/gcc/openmpi2/bin${PATH:+:}${PATH}
-ENV LD_LIBRARY_PATH=/usr/lib64/mpi/gcc/openmpi2/lib64${LD_LIBRARY_PATH:+:}${LD_LIBRARY_PATH}
+RUN if [[ ! -x /usr/lib64/mpi/gcc/${OPENMPI}/bin/mpirun ]]; then echo "OPENMPI default needs update (is currently ${OPENMPI})"; exit 1; fi
+ENV PATH=/usr/lib64/ccache:/usr/lib64/mpi/gcc/${OPENMPI}/bin${PATH:+:}${PATH}
+ENV LD_LIBRARY_PATH=/usr/lib64/mpi/gcc/${OPENMPI}/lib64${LD_LIBRARY_PATH:+:}${LD_LIBRARY_PATH}
 ENV CCACHE_MAXSIZE=250M
 WORKDIR /home/votca
 RUN mkdir .ccache
