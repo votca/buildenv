@@ -3,7 +3,7 @@ FROM registry.fedoraproject.org/fedora:${TAG}
 
 ARG GMX_BRANCH
 ARG GMX_DOUBLE
-ARG PYTHON=python3.9
+ARG PYTHON=python3.10
 ARG INTEL
 
 RUN ( dnf -y update || dnf -y update ) && \
