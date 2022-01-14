@@ -14,17 +14,17 @@ RUN apt-get update && \
     apt-get purge --autoremove -y && \
     rm -rf /var/lib/apt/lists/*
 
-# re-enable when using ubuntu has libecpint-1.0.5
-RUN . /etc/os-release && if  [ -n "${VERSION_ID##20*}" ] && false; then \
+RUN . /etc/os-release && if  [ -n "${VERSION_ID##20*}" ]; then \
   apt-get update && \
   apt-get install -y libecpint-dev && \
   apt-get purge --autoremove -y && \
   rm -rf /var/lib/apt/lists/*; \
 else \
-  pkg=$(curl http://ftp.us.debian.org/debian/pool/main/libe/libecpint/ | sed -n 's/.*\(libecpint-dev.*amd64.deb\).*/\1/p' | sort | tail -n1) && \
-  wget "http://ftp.us.debian.org/debian/pool/main/libe/libecpint/$pkg" && \
-  sudo dpkg -i "$pkg" && \
-  rm "$pkg"; \
+  wget -qO- https://github.com/robashaw/libecpint/archive/refs/tags/v1.0.7.tar.gz | tar -xvz && \
+  cmake -B builddir libecpint-1.0.7 -DCMAKE_INSTALL_PREFIX=/usr -DLIBECPINT_BUILD_TESTS=OFF && \
+  cmake --build builddir && \
+  cmake --install builddir && \
+  rm -rf libecpint-1.0.7 builddir; \
 fi
 
 # create cc and c++ (CMake's default compiler) links for ccache
