@@ -15,13 +15,13 @@ jobs:
     strategy:
       matrix:
         config:
-          - {dockerfile: 'fedora',   tag: 'latest'}
+          - {dockerfile: 'fedora',   tag: 'gmxpkgk'}
           - {dockerfile: 'fedora',   tag: 'rawhide',      build_args: 'TAG=rawhide', continue-on-error: 'true'}
           - {dockerfile: 'ubuntu',   tag: 'latest'}
           - {dockerfile: 'ubuntu',   tag: 'rolling',      build_args: 'TAG=rolling'}
           - {dockerfile: 'ubuntu',   tag: 'devel',        build_args: 'TAG=devel', continue-on-error: 'true'}
-          - {dockerfile: 'opensuse', tag: 'latest', continue-on-error: 'true'}
-          - {dockerfile: 'fedora',   tag: 'gmx2019_d',    build_args: 'GMX_BRANCH=release-2019,GMX_DOUBLE=ON'}
+          - {dockerfile: 'opensuse', tag: 'latest',       continue-on-error: 'true'}
+          - {dockerfile: 'fedora',   tag: 'latest',       build_args: 'GMX_BRANCH=release-2019,GMX_DOUBLE=ON'}
           - {dockerfile: 'fedora',   tag: 'gmx2019',      build_args: 'GMX_BRANCH=release-2019'}
           - {dockerfile: 'fedora',   tag: 'gmx2021_d',    build_args: 'GMX_BRANCH=release-2021,GMX_DOUBLE=ON'}
           - {dockerfile: 'fedora',   tag: 'gmx2021',      build_args: 'GMX_BRANCH=release-2021'}
