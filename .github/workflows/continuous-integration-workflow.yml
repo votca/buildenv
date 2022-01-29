@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         config:
-          - {dockerfile: 'fedora',   tag: 'gmxpkgk'}
+          - {dockerfile: 'fedora',   tag: 'gmxpkg'}
           - {dockerfile: 'fedora',   tag: 'rawhide',      build_args: 'TAG=rawhide', continue-on-error: 'true'}
           - {dockerfile: 'ubuntu',   tag: 'latest'}
           - {dockerfile: 'ubuntu',   tag: 'rolling',      build_args: 'TAG=rolling'}
