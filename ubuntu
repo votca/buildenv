@@ -10,22 +10,9 @@ RUN apt-get update && \
     apt-get install -y \
        make cmake valgrind git g++ libexpat-dev libfftw3-dev libboost-all-dev txt2tags ccache gnuplot python3-numpy doxygen vim clang llvm python3-pip python3-lxml \
        wget libhdf5-dev graphviz pkg-config psmisc libeigen3-dev libxc-dev sudo curl clang-tidy ninja-build libclang-dev llvm-dev libomp-dev \
-       clang-format software-properties-common zstd libint2-dev libpugixml-dev python3-rdkit python3-h5py python3-pytest pybind11-dev && \
+       clang-format software-properties-common zstd libint2-dev libecpint-dev python3-rdkit python3-h5py python3-pytest pybind11-dev && \
     apt-get purge --autoremove -y && \
     rm -rf /var/lib/apt/lists/*
-
-RUN . /etc/os-release && if  [ -n "${VERSION_ID##20*}" ]; then \
-  apt-get update && \
-  apt-get install -y libecpint-dev && \
-  apt-get purge --autoremove -y && \
-  rm -rf /var/lib/apt/lists/*; \
-else \
-  wget -qO- https://github.com/robashaw/libecpint/archive/refs/tags/v1.0.7.tar.gz | tar -xvz && \
-  cmake -B builddir libecpint-1.0.7 -DCMAKE_INSTALL_PREFIX=/usr -DLIBECPINT_BUILD_TESTS=OFF && \
-  cmake --build builddir && \
-  cmake --install builddir && \
-  rm -rf libecpint-1.0.7 builddir; \
-fi
 
 # create cc and c++ (CMake's default compiler) links for ccache
 RUN ln -s ../../bin/ccache /usr/lib/ccache/c++
