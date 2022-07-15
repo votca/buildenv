@@ -11,7 +11,8 @@ RUN ( dnf -y update || dnf -y update ) && \
       make cmake valgrind git gcc-c++ expat-devel fftw-devel boost-devel txt2tags ccache procps-ng gnuplot-minimal psmisc vim-minimal clang llvm compiler-rt \
       python-pip python3-lxml python3-numpy wget hdf5-devel lammps eigen3-devel libxc-devel python3-espresso-openmpi sudo curl clang-tools-extra python3-cma \
       ninja-build libomp-devel clang-devel llvm-devel python3-sphinx python3-nbsphinx python3-recommonmark python3-sphinx_rtd_theme python3-ipykernel patch \
-      python3-seaborn python3-numpydoc zstd  libint2-devel libecpint-devel doxygen python3-h5py pybind11-devel python3-coverage python3-pytest-cov && \
+      python3-seaborn python3-numpydoc zstd  libint2-devel libecpint-devel doxygen python3-h5py pybind11-devel python3-coverage python3-pytest-cov \
+      openmpi-devel boost-python3-devel python-devel boost-openmpi-devel hdf5-openmpi-devel && \
     dnf clean all
 
 RUN source /etc/os-release && if [ "${VERSION_ID}" -le 34 ]; then \
@@ -61,3 +62,8 @@ RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
   cmake --build gromacs/build && \
   sudo cmake --install gromacs/build; \
 fi
+
+RUN git clone https://github.com/espressopp/espressopp && \
+  cmake -S espressopp -B espressopp/build -DCMAKE_INSTALL_PREFIX=/usr && \
+  cmake --build espressopp/build && \
+  sudo cmake --install espressopp/build
