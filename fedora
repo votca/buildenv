@@ -66,5 +66,6 @@ fi
 RUN git clone https://github.com/espressopp/espressopp && \
   cmake -S espressopp -B espressopp/build -DCMAKE_INSTALL_PREFIX=/usr && \
   cmake --build espressopp/build && \
-  sudo cmake --install espressopp/build && \
-  sudo pip3 install pyh5md
+  sudo cmake --install espressopp/build && \  
+  sudo pip3 install pyh5md && \
+  ${PYTHON} -c "import espressopp"
