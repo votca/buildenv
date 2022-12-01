@@ -50,6 +50,10 @@ ENV CCACHE_MAXSIZE=250M
 WORKDIR /home/votca
 RUN mkdir .ccache
 
+# workaround network detection interface in OpenMPI
+ENV OMPI_MCA_btl=vader,self
+ENV OMPI_MCA_mtl=^ofi
+
 # build certain gromacs version as user
 RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
   git clone --depth 1 -b "${GMX_BRANCH}" https://gitlab.com/gromacs/gromacs.git && \
@@ -63,8 +67,9 @@ RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
   sudo cmake --install gromacs/build; \
 fi
 
-#RUN git clone https://github.com/espressopp/espressopp && \
-#  cmake -S espressopp -B espressopp/build -DCMAKE_INSTALL_PREFIX=/usr && \
-#  cmake --build espressopp/build && \
-#  sudo cmake --install espressopp/build && \
-#  sudo pip3 install pyh5md
+RUN git clone https://github.com/espressopp/espressopp && \
+  cmake -S espressopp -B espressopp/build -DCMAKE_INSTALL_PREFIX=/usr && \
+  cmake --build espressopp/build && \
+  sudo cmake --install espressopp/build && \  
+  sudo pip3 install pyh5md && \
+  ${PYTHON} -c "import espressopp"
