@@ -20,7 +20,7 @@ RUN source /etc/os-release && if [ "${VERSION_ID}" -le 34 ]; then \
   dnf -y install python3-rdkit && \
   dnf clean all; \
 else \
-  pip install rdkit
+  pip install rdkit; \
 fi
 
 # set https://github.com/votca/buildenv/issues/22
