@@ -29,6 +29,8 @@ jobs:
           - {dockerfile: 'fedora',   tag: 'gmx2019',      build_args: 'GMX_BRANCH=release-2019'}
           - {dockerfile: 'fedora',   tag: 'gmx2022_d',    build_args: 'GMX_BRANCH=release-2022,GMX_DOUBLE=ON'}
           - {dockerfile: 'fedora',   tag: 'gmx2022',      build_args: 'GMX_BRANCH=release-2022'}
+          - {dockerfile: 'fedora',   tag: 'gmx2023_d',    build_args: 'GMX_BRANCH=release-2023,GMX_DOUBLE=ON'}
+          - {dockerfile: 'fedora',   tag: 'gmx2023',      build_args: 'GMX_BRANCH=release-2023'}
           - {dockerfile: 'fedora',   tag: 'gmx9999_d',    build_args: 'GMX_BRANCH=main,GMX_DOUBLE=ON', continue-on-error: 'true'}
           - {dockerfile: 'fedora',   tag: 'gmx9999',      build_args: 'GMX_BRANCH=main', continue-on-error: 'true'}
           - {dockerfile: 'fedora',   tag: 'nogmx',        build_args: 'GMX_BRANCH=none'}
