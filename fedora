@@ -34,7 +34,7 @@ RUN if [ -z "${GMX_BRANCH}" ]; then \
 fi
 
 RUN if [ "${INTEL}" = "yes" ]; then \
-  dnf config-manager --add-repo https://yum.repos.intel.com/setup/intelproducts.repo
+  dnf config-manager --add-repo https://yum.repos.intel.com/setup/intelproducts.repo && \
   ( dnf -y update || dnf -y update ) && \
   dnf -y install intel-oneapi-compiler-dpcpp-cpp intel-oneapi-compiler-dpcpp-cpp-and-cpp-classic intel-oneapi-mkl-devel && \
   dnf clean all; \
