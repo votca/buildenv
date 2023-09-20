@@ -15,14 +15,6 @@ RUN ( dnf -y update || dnf -y update ) && \
       openmpi-devel boost-python3-devel python-devel boost-openmpi-devel hdf5-openmpi-devel python3-mpi4py-openmpi python-pip vim python-xmltodict python-ase && \
     dnf clean all
 
-RUN source /etc/os-release && if [ "${VERSION_ID}" -le 34 ]; then \
-  ( dnf -y update || dnf -y update ) && \
-  dnf -y install python3-rdkit && \
-  dnf clean all; \
-else \
-  pip install rdkit; \
-fi
-
 # set https://github.com/votca/buildenv/issues/22
 RUN alternatives --set gnuplot /usr/bin/gnuplot-minimal
 
@@ -68,9 +60,11 @@ RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
   sudo cmake --install gromacs/build; \
 fi
 
-RUN git clone https://github.com/espressopp/espressopp && \
+RUN source /etc/os-release && if [ "${VERSION_ID}" -le 39 ]; then \
+  git clone https://github.com/espressopp/espressopp && \
   cmake -S espressopp -B espressopp/build -DCMAKE_INSTALL_PREFIX=/usr && \
   cmake --build espressopp/build && \
   sudo cmake --install espressopp/build && \  
   sudo pip3 install pyh5md && \
-  ${PYTHON} -c "import espressopp"
+  ${PYTHON} -c "import espressopp"; \
+fi
