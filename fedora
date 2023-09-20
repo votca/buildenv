@@ -60,7 +60,7 @@ RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
   sudo cmake --install gromacs/build; \
 fi
 
-RUN source /etc/os-release && if [ "${VERSION_ID}" -le 40 ]; then \
+RUN source /etc/os-release && if [ "${VERSION_ID}" -le 39 ]; then \
   git clone https://github.com/espressopp/espressopp && \
   cmake -S espressopp -B espressopp/build -DCMAKE_INSTALL_PREFIX=/usr && \
   cmake --build espressopp/build && \
