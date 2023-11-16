@@ -27,14 +27,12 @@ jobs:
           - {dockerfile: 'opensuse', tag: 'latest',       continue-on-error: 'true'}
           - {dockerfile: 'fedora',   tag: 'latest',       build_args: 'GMX_BRANCH=release-2019,GMX_DOUBLE=ON'}
           - {dockerfile: 'fedora',   tag: 'gmx2019',      build_args: 'GMX_BRANCH=release-2019'}
-          - {dockerfile: 'fedora',   tag: 'gmx2022_d',    build_args: 'GMX_BRANCH=release-2022,GMX_DOUBLE=ON'}
-          - {dockerfile: 'fedora',   tag: 'gmx2022',      build_args: 'GMX_BRANCH=release-2022'}
           - {dockerfile: 'fedora',   tag: 'gmx2023_d',    build_args: 'GMX_BRANCH=release-2023,GMX_DOUBLE=ON'}
           - {dockerfile: 'fedora',   tag: 'gmx2023',      build_args: 'GMX_BRANCH=release-2023'}
           - {dockerfile: 'fedora',   tag: 'gmx9999_d',    build_args: 'GMX_BRANCH=main,GMX_DOUBLE=ON', continue-on-error: 'true'}
           - {dockerfile: 'fedora',   tag: 'gmx9999',      build_args: 'GMX_BRANCH=main', continue-on-error: 'true'}
           - {dockerfile: 'fedora',   tag: 'nogmx',        build_args: 'GMX_BRANCH=none'}
-          - {dockerfile: 'fedora',   tag: 'intel',        build_args: 'TAG=37,INTEL=yes', continue-on-error: 'true'}
+          - {dockerfile: 'fedora',   tag: 'intel',        build_args: 'TAG=37,INTEL=yes,PYTHON=python3.11', continue-on-error: 'true'}
           - {dockerfile: 'actions',  tag: 'latest'}
           - {dockerfile: 'format',   tag: 'latest'}
     runs-on: ubuntu-latest
@@ -59,7 +57,7 @@ jobs:
         id: build_args
         run: |
           echo "args<<EOF" >> $GITHUB_OUTPUT 
-          echo ${{ matrix.config.build_args }} | sed 's/,/\n/' >> $GITHUB_OUTPUT
+          echo ${{ matrix.config.build_args }} | sed 's/,/\n/g' >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
       - name: Build and Push Docker images for all Container Registries
         uses: docker/build-push-action@v3        

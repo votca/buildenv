@@ -2,7 +2,7 @@ FROM opensuse/tumbleweed:latest
 
 ARG GMX_BRANCH
 ARG GMX_DOUBLE
-ARG OPENMPI=openmpi3
+ARG OPENMPI=openmpi4
 
 RUN zypper dup -y && \
     zypper install -y \
