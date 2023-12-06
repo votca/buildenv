@@ -16,7 +16,7 @@ RUN apt-get update && \
     apt-get clean
 
 # install ubuntu's gromacs
-RUN source /etc/os-release && if [ -z "${GMX_BRANCH}" ]; then \
+RUN . /etc/os-release && if [ -z "${GMX_BRANCH}" ]; then \
   apt-get update && \
   if [ "${VERSION_ID}" -ge 22.04 ]; then \
     apt-get install -y libgromacs-dev gromacs-openmpi; \
