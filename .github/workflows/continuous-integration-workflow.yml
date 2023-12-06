@@ -22,6 +22,7 @@ jobs:
           - {dockerfile: 'fedora',   tag: 'gmxpkg'}
           - {dockerfile: 'fedora',   tag: 'rawhide',      build_args: 'TAG=rawhide,PYTHON=python3.12', continue-on-error: 'true'}
           - {dockerfile: 'ubuntu',   tag: 'latest'}
+          - {dockerfile: 'ubuntu',   tag: 'intel',        build_args: 'TAG=22.04,INTEL=yes', continue-on-error: 'true'}
           - {dockerfile: 'ubuntu',   tag: 'rolling',      build_args: 'TAG=rolling'}
           - {dockerfile: 'ubuntu',   tag: 'devel',        build_args: 'TAG=devel', continue-on-error: 'true'}
           - {dockerfile: 'opensuse', tag: 'latest',       continue-on-error: 'true'}
