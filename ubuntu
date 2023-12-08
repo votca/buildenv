@@ -21,7 +21,7 @@ RUN . /etc/os-release && if [ -z "${GMX_BRANCH}" ]; then \
   if [ "${VERSION_ID}" = "22.04" ]; then \
     apt-get install -y libgromacs-dev gromacs-mpi; \
   else \
-    apt-get install -y libgromacs-dev gromacs-openmpi; \
+    apt-get install -y libgromacs-dev gromacs; \
   fi && \
   apt-get purge --autoremove -y && \
   apt-get clean; \
