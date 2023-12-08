@@ -3,6 +3,7 @@ FROM ubuntu:${TAG}
 
 ARG GMX_BRANCH
 ARG GMX_DOUBLE
+ARG INTEL
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
@@ -12,19 +13,34 @@ RUN apt-get update && \
        wget libhdf5-dev graphviz pkg-config psmisc libeigen3-dev libxc-dev sudo curl clang-tidy ninja-build libclang-dev llvm-dev libomp-dev \
        clang-format software-properties-common zstd libint2-dev libecpint-dev python3-rdkit python3-h5py python3-pytest pybind11-dev python3-xmltodict ase && \
     apt-get purge --autoremove -y && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get clean
 
 # install ubuntu's gromacs
-RUN if [ -z "${GMX_BRANCH}" ]; then \
+RUN . /etc/os-release && if [ -z "${GMX_BRANCH}" ]; then \
   apt-get update && \
-  apt-get install -y libgromacs-dev gromacs-openmpi; \
+  if [ "${VERSION_ID}" = "22.04" ]; then \
+    apt-get install -y libgromacs-dev gromacs-mpi; \
+  else \
+    apt-get install -y libgromacs-dev gromacs; \
+  fi && \
   apt-get purge --autoremove -y && \
-  rm -rf /var/lib/apt/lists/*; \
+  apt-get clean; \
+fi
+
+RUN if [ "${INTEL}" = "yes" ]; then \
+  wget -O- https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB | gpg --dearmor | sudo tee /usr/share/keyrings/oneapi-archive-keyring.gpg > /dev/null && \
+  echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list && \
+  apt-get update && \
+  apt-get install -y intel-oneapi-compiler-dpcpp-cpp-and-cpp-classic intel-oneapi-mkl-devel && \
+  apt-get purge --autoremove -y && \
+  apt-get clean; \
 fi
 
 RUN useradd -m -G sudo -u 1001 votca
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER votca
+ENV PATH=${INTEL:+/opt/intel/oneapi/compiler/latest/linux/bin:/opt/intel/oneapi/compiler/latest/linux/bin/intel64}${PATH:+:}${PATH}
+ENV LD_LIBRARY_PATH=${INTEL:+/opt/intel/oneapi/compiler/latest/linux/compiler/lib/intel64:/opt/intel/oneapi/mkl/latest/lib/intel64}${LD_LIBRARY_PATH:+:}${LD_LIBRARY_PATH}
 ENV CCACHE_MAXSIZE=250M
 WORKDIR /home/votca
 
