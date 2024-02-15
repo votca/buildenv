@@ -36,9 +36,9 @@ RUN useradd -m -G wheel -u 1001 votca
 RUN echo '%wheel ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER votca
 ENV PATH=/usr/lib64/openmpi/bin${PATH:+:}${PATH}
-ENV PATH=${INTEL:+/opt/intel/oneapi/compiler/latest/linux/bin:/opt/intel/oneapi/compiler/latest/linux/bin/intel64}${PATH:+:}${PATH}
-ENV LD_LIBRARY_PATH=${INTEL:+/opt/intel/oneapi/compiler/latest/linux/compiler/lib/intel64:/opt/intel/oneapi/mkl/latest/lib/intel64/}${LD_LIBRARY_PATH:+:}${LD_LIBRARY_PATH}
-ENV CMAKE_PREFIX_PATH=${INTEL:+/opt/intel/oneapi/mkl/latest/lib/intel64/cmake/}${CMAKE_PREFIX_PATH:+:}${CMAKE_PREFIX_PATH}
+ENV PATH=${INTEL:+/opt/intel/oneapi/compiler/latest/bin}${PATH:+:}${PATH}
+ENV LD_LIBRARY_PATH=${INTEL:+/opt/intel/oneapi/compiler/latest/lib:/opt/intel/oneapi/mkl/latest/lib}${LD_LIBRARY_PATH:+:}${LD_LIBRARY_PATH}
+ENV CMAKE_PREFIX_PATH=${INTEL:+/opt/intel/oneapi/mkl/latest/lib/cmake}${CMAKE_PREFIX_PATH:+:}${CMAKE_PREFIX_PATH}
 RUN XPYTHON=$(basename $(readlink -f /usr/bin/python3)); if [[ ${XPYTHON} != ${PYTHON} ]]; then echo "PYTHON default needs update (is currently ${PYTHON}, but found ${XPYTHON})"; exit 1; fi
 ENV PYTHONPATH=/usr/lib64/${PYTHON}/site-packages/openmpi${PYTHONPATH:+:}${PYTHONPATH}
 ENV CCACHE_MAXSIZE=250M
