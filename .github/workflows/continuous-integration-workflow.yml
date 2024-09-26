@@ -65,10 +65,10 @@ jobs:
       - name: Generate platforms
         id: platforms
         run: |
-          if [ "${{ matrix.config.dockerfile }}::${{ matrix.config.tag }}" = "fedora:latest" ]; then
-            echo "linux/amd64,linux/arm64" >> $GITHUB_OUTPUT
+          if [ "${{ matrix.config.dockerfile }}:${{ matrix.config.tag }}" = "fedora:latest" ]; then
+            echo "platforms=linux/amd64,linux/arm64" >> $GITHUB_OUTPUT
           else
-            echo "linux/amd64" >> $GITHUB_OUTPUT
+            echo "platforms=linux/amd64" >> $GITHUB_OUTPUT
           fi
       - name: Build and Push Docker images for all Container Registries
         uses: docker/build-push-action@v3        
@@ -80,3 +80,4 @@ jobs:
           build-args: ${{ steps.build_args.outputs.args }}
           pull: true
           push: ${{ github.repository_owner == 'votca' && ( github.event_name == 'push' ||  github.event_name == 'schedule' ) }}
+          platforms: ${{ steps.platforms.outputs.platforms }}
