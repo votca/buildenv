@@ -75,12 +75,10 @@ jobs:
           pull: true
           push: ${{ github.repository_owner == 'votca' && ( github.event_name == 'push' ||  github.event_name == 'schedule' ) }}
   merge-docker-manifest:
-    if: github.repository_owner == 'votca' && ( github.event_name == 'push' ||  github.event_name == 'schedule' )
     runs-on: ubuntu-latest
     needs: CI
     steps:
       - name: Login to Gitlab Container Registry
-        if: github.repository_owner == 'votca' && ( github.event_name == 'push' ||  github.event_name == 'schedule' )
         uses: docker/login-action@v3
         with:
           registry: registry.gitlab.com
@@ -93,9 +91,17 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Create and push manifest images
+      - name: Create and push manifest images to Github Container Registry
+        if: github.repository_owner == 'votca' && ( github.event_name == 'push' ||  github.event_name == 'schedule' )
         uses: Noelware/docker-manifest-action@master # or use a pinned version in the Releases tab
         with:
-          inputs: ghcr.io/votca/buildenv/fedora:latest,registry.gitlab.com/votca/buildenv/fedora:latest
+          inputs: ghcr.io/votca/buildenv/fedora:latest
           images: ghcr.io/votca/buildenv/fedora:latest-amd64,ghcr.io/votca/buildenv/fedora:latest-arm64
-          push: true
+          push: ${{ github.repository_owner == 'votca' && ( github.event_name == 'push' ||  github.event_name == 'schedule' ) }}
+      - name: Create and push manifest images to GitLab Container Registry
+        if: github.repository_owner == 'votca' && ( github.event_name == 'push' ||  github.event_name == 'schedule' )
+        uses: Noelware/docker-manifest-action@master # or use a pinned version in the Releases tab
+        with:
+          inputs: registry.gitlab.com/votca/buildenv/fedora:latest
+          images: registry.gitlab.com/votca/buildenv/fedora:latest-amd64,registry.gitlab.com/votca/buildenv/fedora:latest-arm64
+          push: ${{ github.repository_owner == 'votca' && ( github.event_name == 'push' ||  github.event_name == 'schedule' ) }}
