@@ -57,7 +57,10 @@ RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
   else \
     curl https://gitlab.com/gromacs/gromacs/-/merge_requests/1524.patch | patch -d gromacs -p 1; \
   fi && \
-  cmake -GNinja -S gromacs -B gromacs/build -DCMAKE_INSTALL_PREFIX=/usr -DGMX_SIMD=SSE2 -DGMX_DOUBLE=${GMX_DOUBLE} ${gmx_cmake_opts} && \
+  if [ "$(uname -m)" = "x86_64" ]; then \
+    gmx_cmake_opts+=" -DGMX_SIMD=SSE2"; \
+  fi && \
+  cmake -GNinja -S gromacs -B gromacs/build -DCMAKE_INSTALL_PREFIX=/usr -DGMX_DOUBLE=${GMX_DOUBLE} ${gmx_cmake_opts} && \
   cmake --build gromacs/build && \
   sudo cmake --install gromacs/build; \
 fi
