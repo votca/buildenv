@@ -92,15 +92,15 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Create and push manifest images to Github Container Registry
         if: github.repository_owner == 'votca' && ( github.event_name == 'push' ||  github.event_name == 'schedule' )
-        uses: Noelware/docker-manifest-action@master # or use a pinned version in the Releases tab
+        uses: Noelware/docker-manifest-action@v0.4.3
         with:
           inputs: ghcr.io/votca/buildenv/fedora:latest
-          tags: ghcr.io/votca/buildenv/fedora:latest-amd64,ghcr.io/votca/buildenv/fedora:latest-arm64
+          images: ghcr.io/votca/buildenv/fedora:latest-amd64,ghcr.io/votca/buildenv/fedora:latest-arm64
           push: ${{ github.repository_owner == 'votca' && ( github.event_name == 'push' ||  github.event_name == 'schedule' ) }}
       - name: Create and push manifest images to GitLab Container Registry
         if: github.repository_owner == 'votca' && ( github.event_name == 'push' ||  github.event_name == 'schedule' )
-        uses: Noelware/docker-manifest-action@master # or use a pinned version in the Releases tab
+        uses: Noelware/docker-manifest-action@v0.4.3
         with:
           inputs: registry.gitlab.com/votca/buildenv/fedora:latest
-          tags: registry.gitlab.com/votca/buildenv/fedora:latest-amd64,registry.gitlab.com/votca/buildenv/fedora:latest-arm64
+          images: registry.gitlab.com/votca/buildenv/fedora:latest-amd64,registry.gitlab.com/votca/buildenv/fedora:latest-arm64
           push: ${{ github.repository_owner == 'votca' && ( github.event_name == 'push' ||  github.event_name == 'schedule' ) }}
