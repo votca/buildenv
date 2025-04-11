@@ -92,14 +92,14 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Create and push manifest images to Github Container Registry
         if: github.repository_owner == 'votca' && ( github.event_name == 'push' ||  github.event_name == 'schedule' )
-        uses: Noelware/docker-manifest-action@v0.4.3
+        uses: Noelware/docker-manifest-action@0.4.3
         with:
           inputs: ghcr.io/votca/buildenv/fedora:latest
           images: ghcr.io/votca/buildenv/fedora:latest-amd64,ghcr.io/votca/buildenv/fedora:latest-arm64
           push: ${{ github.repository_owner == 'votca' && ( github.event_name == 'push' ||  github.event_name == 'schedule' ) }}
       - name: Create and push manifest images to GitLab Container Registry
         if: github.repository_owner == 'votca' && ( github.event_name == 'push' ||  github.event_name == 'schedule' )
-        uses: Noelware/docker-manifest-action@v0.4.3
+        uses: Noelware/docker-manifest-action@0.4.3
         with:
           inputs: registry.gitlab.com/votca/buildenv/fedora:latest
           images: registry.gitlab.com/votca/buildenv/fedora:latest-amd64,registry.gitlab.com/votca/buildenv/fedora:latest-arm64
