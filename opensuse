@@ -8,7 +8,7 @@ RUN zypper dup -y && \
     zypper install -y \
       make cmake valgrind git gcc-c++ libexpat-devel fftw-devel boost-devel txt2tags ccache procps gnuplot psmisc vim clang llvm python3-pip python3-lxml python3-numpy \
       wget hdf5-devel eigen3-devel libxc-devel sudo curl ninja clang-devel llvm-devel libboost_filesystem-devel libboost_program_options-devel libboost_serialization-devel \
-      libboost_regex-devel libboost_test-devel libboost_timer-devel zlib-devel python3-cma python3-espressomd zstd shadow \
+      libboost_regex-devel libboost_test-devel libboost_timer-devel zlib-devel python3-cma zstd shadow \
       libomp-devel libint-devel libecpint-devel doxygen python3-h5py python3-pybind11-devel python3-pytest python3-xmltodict python3-ase && \
     zypper clean
 
