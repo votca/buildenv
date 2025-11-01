@@ -3,7 +3,7 @@ FROM registry.fedoraproject.org/fedora:${TAG}
 
 ARG GMX_BRANCH
 ARG GMX_DOUBLE
-ARG PYTHON=python3.13
+ARG PYTHON=python3.14
 ARG INTEL
 
 RUN ( dnf -y update || dnf -y update ) && \
@@ -53,11 +53,7 @@ ENV OMPI_MCA_mtl=^ofi
 # build certain gromacs version as user
 RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
   git clone --depth 1 -b "${GMX_BRANCH}" https://gitlab.com/gromacs/gromacs.git && \
-  if [ "${GMX_BRANCH}" != release-2019 ]; then \
-    gmx_cmake_opts="-DGMX_INSTALL_LEGACY_API=ON -DCMAKE_DISABLE_FIND_PACKAGE_Sphinx=ON"; \
-  else \
-    curl https://gitlab.com/gromacs/gromacs/-/merge_requests/1524.patch | patch -d gromacs -p 1; \
-  fi && \
+  gmx_cmake_opts="-DGMX_INSTALL_LEGACY_API=ON -DCMAKE_DISABLE_FIND_PACKAGE_Sphinx=ON"; \
   if [ "$(uname -m)" = "x86_64" ]; then \
     gmx_cmake_opts+=" -DGMX_SIMD=SSE2"; \
   fi && \

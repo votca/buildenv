@@ -31,9 +31,7 @@ WORKDIR /home/votca
 RUN if [ -n "${GMX_BRANCH}" ] && [ "${GMX_BRANCH}" != "none" ]; then \
   git clone --depth 1 -b "${GMX_BRANCH}" https://gitlab.com/gromacs/gromacs.git && \
   mkdir gromacs/build && cd gromacs/build && \
-  if [ "${GMX_BRANCH}" != release-2019 ]; then \
-    gmx_cmake_opts="-DGMX_INSTALL_LEGACY_API=ON"; \
-  fi && \
+  gmx_cmake_opts="-DGMX_INSTALL_LEGACY_API=ON"; \
   cmake -DCMAKE_INSTALL_PREFIX=/usr -DGMX_SIMD=SSE2 -DGMX_DOUBLE=${GMX_DOUBLE} ${gmx_cmake_opts} .. && \
   make -j3 VERBOSE=1 && \
   sudo make install && \
