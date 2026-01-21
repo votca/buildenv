@@ -27,8 +27,6 @@ jobs:
           - {dockerfile: 'opensuse', tag: 'latest',       continue-on-error: 'true'}
           - {dockerfile: 'fedora',   tag: 'latest-amd64'}
           - {dockerfile: 'fedora',   tag: 'latest-arm64', arm: 'true'}
-          - {dockerfile: 'fedora',   tag: 'gmx2025_d',    build_args: 'GMX_BRANCH=release-2025,GMX_DOUBLE=ON'}
-          - {dockerfile: 'fedora',   tag: 'gmx2025',      build_args: 'GMX_BRANCH=release-2025'}
           - {dockerfile: 'fedora',   tag: 'gmx9999_d',    build_args: 'GMX_BRANCH=main,GMX_DOUBLE=ON', continue-on-error: 'true'}
           - {dockerfile: 'fedora',   tag: 'gmx9999',      build_args: 'GMX_BRANCH=main', continue-on-error: 'true'}
           - {dockerfile: 'actions',  tag: 'latest'}
