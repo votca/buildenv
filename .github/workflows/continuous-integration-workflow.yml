@@ -68,6 +68,7 @@ jobs:
           build-args: ${{ steps.build_args.outputs.args }}
           pull: true
           push: ${{ github.repository_owner == 'votca' && ( github.event_name == 'push' ||  github.event_name == 'schedule' ) }}
+          provenance: false
   merge-docker-manifest:
     runs-on: ubuntu-latest
     needs: CI
