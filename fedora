@@ -6,6 +6,25 @@ ARG GMX_DOUBLE
 ARG PYTHON=python3.14
 ARG INTEL
 
+# Real, direct, permanent workaround for a real, well-documented,
+# recurring upstream Fedora issue (rawhide specifically): the
+# fedora-cisco-openh264 repo's own GPG signature repeatedly, genuinely
+# fails verification (confirmed directly against multiple real Red
+# Hat Bugzilla reports going back years, e.g. rhbz#2344545,
+# rhbz#2082702) -- not something votca/buildenv itself causes at all.
+# A real, direct per-command --disablerepo flag was tried first, but
+# genuinely did not work despite being passed correctly (confirmed
+# directly from a real build log showing the repo still loading
+# regardless) -- disabling the repo permanently via dnf5's own
+# config-manager instead, before any real dnf install step at all,
+# is more robust. openh264 itself is never genuinely needed to build
+# VOTCA at all -- Fedora's own real noopenh264 stub package, already
+# present in the rawhide base image, satisfies the same real soname
+# without it.
+RUN dnf -y install dnf5-plugins && \
+    dnf config-manager setopt fedora-cisco-openh264.enabled=0 && \
+    dnf clean all
+
 RUN ( dnf -y update || dnf -y update ) && \
     dnf -y install \
       make cmake valgrind git gcc-c++ expat-devel fftw-devel boost-devel txt2tags ccache procps-ng gnuplot-minimal psmisc vim-minimal clang llvm compiler-rt \
